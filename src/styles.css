@@ -1,0 +1,240 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ============================================================
+   E-Commerce Admin — Design System
+   Source: yuklagan DESIGN-SYSTEM-DOC.md + system-design.html
+   Fonts: Syne (display), Outfit (body), JetBrains Mono (code/labels)
+   Primary: #FF6633  •  Radius base: 4px  •  Spacing: 8px grid
+   ============================================================ */
+
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Syne:wght@500;600;700;800&family=Outfit:wght@300;400;500;600;700&display=swap");
+
+@theme inline {
+  --font-sans: "Outfit", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Syne", "Outfit", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  --radius-sm: 3px;
+  --radius-md: 4px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-2xl: 16px;
+  --radius-3xl: 22px;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-soft: var(--primary-soft);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-destructive-soft: var(--destructive-soft);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-success-soft: var(--success-soft);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-muted: var(--sidebar-muted);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+
+  --shadow-soft: 0 1px 2px oklch(0 0 0 / 0.04), 0 2px 8px oklch(0 0 0 / 0.04);
+  --shadow-pop: 0 4px 16px oklch(0 0 0 / 0.08);
+  --shadow-glow: 0 8px 32px oklch(0.66 0.21 38 / 0.18);
+}
+
+/* -------- LIGHT (yuklagan design system asosida) -------- */
+:root {
+  --radius: 4px;
+
+  --background: oklch(0.985 0.012 80);          /* #FBF8EC issiq oq sahifa */
+  --foreground: oklch(0.24 0.01 80);            /* #232323 */
+
+  --card: oklch(1 0 0);                         /* #FFFFFF */
+  --card-foreground: oklch(0.24 0.01 80);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.24 0.01 80);
+
+  --primary: oklch(0.685 0.195 39);             /* #FF6633 */
+  --primary-foreground: oklch(1 0 0);
+  --primary-soft: oklch(0.92 0.06 55);          /* #FCD5BA */
+
+  --secondary: oklch(0.96 0.005 80);            /* #F3F2F1 */
+  --secondary-foreground: oklch(0.24 0.01 80);
+
+  --muted: oklch(0.96 0.005 80);
+  --muted-foreground: oklch(0.56 0.005 80);     /* #8F8F8F */
+
+  --accent: oklch(0.96 0.06 55);                /* warm primary tint */
+  --accent-foreground: oklch(0.24 0.01 80);
+
+  --destructive: oklch(0.55 0.22 27);           /* #D80000 */
+  --destructive-foreground: oklch(1 0 0);
+  --destructive-soft: oklch(0.92 0.07 22);      /* #FFC7C7 */
+
+  --success: oklch(0.72 0.16 142);              /* #70C05B */
+  --success-foreground: oklch(0.99 0 0);
+  --success-soft: oklch(0.96 0.08 138);         /* #E5FFDE */
+
+  --warning: oklch(0.78 0.16 70);               /* #FCA21C */
+  --warning-foreground: oklch(0.24 0.01 80);
+
+  --info: oklch(0.78 0.13 230);                 /* #1CB9FC */
+  --info-foreground: oklch(0.99 0 0);
+
+  --border: oklch(0.92 0.005 80);               /* #ECECEF */
+  --input: oklch(0.95 0.005 80);                /* #F3F2F1 */
+  --ring: oklch(0.685 0.195 39 / 0.5);
+
+  /* Sidebar — light */
+  --sidebar: oklch(0.99 0.008 80);
+  --sidebar-foreground: oklch(0.24 0.01 80);
+  --sidebar-muted: oklch(0.5 0.005 80);
+  --sidebar-border: oklch(0.92 0.005 80);
+  --sidebar-accent: oklch(0.96 0.06 55);
+  --sidebar-accent-foreground: oklch(0.685 0.195 39);
+
+  --chart-1: oklch(0.685 0.195 39);             /* primary */
+  --chart-2: oklch(0.72 0.16 142);              /* success */
+  --chart-3: oklch(0.78 0.13 230);              /* info */
+  --chart-4: oklch(0.78 0.16 70);               /* warning */
+  --chart-5: oklch(0.55 0.18 305);              /* purple */
+}
+
+/* -------- DARK (system-design.html dan ilhomlangan) -------- */
+.dark {
+  --background: oklch(0.16 0.005 60);           /* near #0D0D0D */
+  --foreground: oklch(0.95 0.012 80);           /* #F0EDE8 */
+
+  --card: oklch(0.20 0.005 60);                 /* #161616 */
+  --card-foreground: oklch(0.95 0.012 80);
+  --popover: oklch(0.22 0.005 60);
+  --popover-foreground: oklch(0.95 0.012 80);
+
+  --primary: oklch(0.72 0.20 39);               /* brighter #FF6633 */
+  --primary-foreground: oklch(0.16 0.005 60);
+  --primary-soft: oklch(0.32 0.10 39);
+
+  --secondary: oklch(0.24 0.005 60);            /* #1F1F1F */
+  --secondary-foreground: oklch(0.95 0.012 80);
+
+  --muted: oklch(0.24 0.005 60);
+  --muted-foreground: oklch(0.65 0.005 80);
+
+  --accent: oklch(0.28 0.04 39);
+  --accent-foreground: oklch(0.95 0.012 80);
+
+  --destructive: oklch(0.65 0.22 27);
+  --destructive-foreground: oklch(0.99 0 0);
+  --destructive-soft: oklch(0.32 0.10 22);
+
+  --success: oklch(0.74 0.17 142);
+  --success-foreground: oklch(0.16 0.005 60);
+  --success-soft: oklch(0.32 0.10 142);
+
+  --warning: oklch(0.80 0.17 70);
+  --warning-foreground: oklch(0.16 0.005 60);
+
+  --info: oklch(0.80 0.14 230);
+  --info-foreground: oklch(0.16 0.005 60);
+
+  --border: oklch(0.28 0.005 60);               /* #2A2A2A */
+  --input: oklch(0.24 0.005 60);
+  --ring: oklch(0.72 0.20 39 / 0.55);
+
+  --sidebar: oklch(0.13 0.005 60);              /* deeper than bg */
+  --sidebar-foreground: oklch(0.95 0.012 80);
+  --sidebar-muted: oklch(0.55 0.005 80);
+  --sidebar-border: oklch(0.24 0.005 60);
+  --sidebar-accent: oklch(0.26 0.05 39);
+  --sidebar-accent-foreground: oklch(0.85 0.18 39);
+
+  --chart-1: oklch(0.74 0.20 39);
+  --chart-2: oklch(0.76 0.17 142);
+  --chart-3: oklch(0.80 0.14 230);
+  --chart-4: oklch(0.80 0.17 70);
+  --chart-5: oklch(0.70 0.18 305);
+}
+
+@layer base {
+  * { border-color: var(--color-border); }
+
+  html, body { height: 100%; }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    font-feature-settings: "ss01", "cv11";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb {
+    background: color-mix(in oklab, var(--color-muted-foreground) 35%, transparent);
+    border-radius: 8px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: color-mix(in oklab, var(--color-muted-foreground) 55%, transparent);
+  }
+}
+
+@layer utilities {
+  .font-display { font-family: var(--font-display); }
+  .font-mono { font-family: var(--font-mono); }
+
+  .label-mono {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-muted-foreground);
+  }
+
+  .surface-card {
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+  }
+
+  .gradient-primary {
+    background-image: linear-gradient(135deg,
+      var(--color-primary) 0%,
+      color-mix(in oklab, var(--color-primary) 75%, var(--color-warning)) 100%);
+  }
+
+  .ring-focus:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--color-ring);
+  }
+}
