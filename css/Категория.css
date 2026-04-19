@@ -1,0 +1,308 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.contianer {
+  max-width: 1290px;
+  /* background-color: black; */
+}
+.contianer {
+  max-width: 1290px;
+  margin: auto;
+  /* background-color: black; */
+}
+
+.menyu_head {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  gap: 10px;
+  padding: 20px;
+}
+
+.menyu_head p:nth-child(3) {
+  color: #414141;
+}
+
+.menyu_head p:nth-child(5) {
+  color: #8f8f8f;
+}
+.parent {
+  width: 100%;
+  height: 1000px;
+  padding: 0px 15px;
+  display: grid;
+  grid-template-columns: 12fr 30fr;
+  gap: 10px;
+  padding: 10px;
+}
+.h1-fn {
+  padding: 0px 15px;
+  margin-bottom: 40px;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  color: rgba(65, 65, 65, 1);
+  font-size: 64px;
+  font-weight: 800;
+}
+
+nav {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+}
+nav > h2 {
+  width: 90%;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  background-color: rgba(243, 242, 241, 1);
+}
+.card-range {
+  width: 90%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.card-range > span {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px;
+}
+.card-range > span > p:last-child {
+  color: #bfbfbf;
+}
+.card-range > span > p {
+  background-color: #f3f2f1;
+  width: 100px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+}
+.range {
+  width: 100%;
+  height: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px;
+}
+.range > span {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 5px;
+  height: 110px;
+}
+.range > span > p {
+  flex: 1;
+  border: 1px solid #bfbfbf;
+  display: flex;
+  border-radius: 6px;
+  align-items: center;
+  justify-content: start;
+  padding: 0px 10px;
+  color: #414141;
+}
+.range > span > p:nth-child(2) {
+  flex: 0.1;
+  border: none;
+  align-items: center;
+  justify-content: center;
+  color: black;
+  font-size: 24px;
+}
+
+.range > input {
+  width: 70%;
+  height: 70%;
+}
+
+article {
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+  height: 980px;
+}
+section {
+  flex: 1;
+}
+
+.product {
+  flex: 2.2;
+  padding: 10px;
+}
+
+.card_shop {
+  /* width: 100%; */
+  height: 370px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  /* grid-template-columns: repeat(3, 1fr); */
+  gap: 25px;
+  padding: 10px;
+}
+
+.shoping:hover {
+  transform: scale(1.02);
+}
+
+.shoping {
+  transition: 0.3s;
+  padding: 5px;
+  width: 100%;
+  height: 350px;
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  border-radius: 6px;
+}
+.shoping > .img_product {
+  width: 100%;
+  height: 45%;
+  position: relative;
+  overflow: hidden;
+}
+.img_product > img {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 6px;
+  object-fit: contain;
+}
+
+.foiz {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 50px;
+  margin-left: 10px;
+  margin-bottom: 15px;
+  height: 30px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  background-color: #ff6633;
+}
+.arxiv:hover {
+  background-color: #ff6633;
+  color: white;
+}
+
+.arxiv {
+  transition: 0.5s;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  border-radius: 8px;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f3f2f1;
+  color: rgba(65, 65, 65, 1);
+  font-size: 24px;
+}
+.info_product {
+  width: 100%;
+  height: 55%;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.narx {
+  display: flex;
+  justify-content: space-between;
+  color: rgba(65, 65, 65, 1);
+  font-size: 1.2rem;
+}
+.narx :first-child {
+  font-weight: bold;
+}
+.malumot {
+  display: flex;
+  justify-content: space-between;
+  color: #bfbfbf;
+}
+.city {
+  width: 100%;
+  height: auto;
+  font-size: 1.14vw;
+  color: #414141;
+}
+
+.info_product button {
+  width: 100%;
+  height: 40px;
+  background: none;
+  border: 2px solid #70c05b;
+  color: #70c05b;
+  font-size: 16px;
+  border-radius: 6px;
+}
+
+.shoping button:hover {
+  background-color: #ff6633;
+  color: white;
+}
+
+.koproq-korish {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.box-korish {
+  width: 730px;
+  height: 70px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  color: #606060;
+}
+.box-korish > a {
+  border-radius: 6px;
+  background-color: #f3f2f1;
+  width: 150px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.box-korish > ul {
+  width: 100%;
+  gap: 15px;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.box-korish ul li a {
+  text-decoration: none;
+}
+.box-korish ul li a p {
+  font-size: 24px;
+  width: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 5px;
+}
+.box-korish ul li a i {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 6px;
+  font-size: 30px;
+}

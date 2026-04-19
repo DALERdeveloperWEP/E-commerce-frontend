@@ -1,0 +1,190 @@
+.shoping:hover {
+  transform: scale(1.02);
+}
+
+.shoping {
+  transition: 0.3s;
+  padding: 5px;
+  height: 100%;
+  width: 100%;
+  min-height: 380px;
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+}
+.shoping > .img_product {
+  width: 100%;
+  height: 160px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.img_product > img {
+  width: 100%;
+  height: 100%;
+  border-radius: 6px;
+  object-fit: contain;
+  display: block;
+}
+
+.foiz {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 50px;
+  margin-left: 10px;
+  margin-bottom: 15px;
+  height: 30px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  background-color: #ff6633;
+}
+.arxiv:hover {
+  background-color: #ff6633;
+  color: white;
+}
+
+.info_product > button:active {
+  transform: scale(0.9);
+  transition: 0.1s;
+}
+
+.arxiv:hover {
+  cursor: pointer;
+}
+
+.arxiv {
+  transition: 0.5s;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  border-radius: 8px;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f3f2f1;
+  color: rgba(65, 65, 65, 1);
+  font-size: 24px;
+}
+
+.arxiv.active {
+  background-color: #ff6633;
+  color: white;
+}
+
+.arxiv.active:hover {
+  background-color: #f3f2f1;
+  color: rgba(65, 65, 65, 1);
+}
+.info_product {
+  width: 100%;
+  height: 55%;
+  padding: 8px;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.narx {
+  display: flex;
+  justify-content: space-between;
+  color: rgba(65, 65, 65, 1);
+  font-size: 1.2rem;
+}
+.narx :first-child {
+  font-weight: bold;
+}
+.malumot {
+  display: flex;
+  justify-content: space-between;
+  color: #bfbfbf;
+}
+.city {
+  width: 100%;
+  height: auto;
+  font-size: 1.11vw;
+  color: #414141;
+  margin-bottom: 10px;
+}
+
+.info_product button {
+  width: 100%;
+  height: 48px;
+  background: none;
+  border: 2px solid #70c05b;
+  color: #70c05b;
+  font-size: 16px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.shoping button:hover {
+  background-color: #ff6633;
+  border-color: #ff6633;
+  color: white;
+}
+
+
+
+
+
+/* Quantity control - unified green bar like Lay's design */
+.quantity-control {
+  margin: 0px auto;
+  width: 80%;
+  height: 48px;
+  background-color: #70c05b;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 8px;
+  box-sizing: border-box;
+}
+
+.quantity-control .qty-btn {
+  width: 40px;
+  height: 36px;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 22px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: all 0.2s ease;
+}
+
+.quantity-control .qty-btn:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.quantity-control .qty-btn:active {
+  transform: scale(0.9);
+}
+
+.quantity-control .qty-btn i {
+  font-size: 20px;
+}
+
+.quantity-control .qty-value {
+  flex: 1;
+  text-align: center;
+  color: white;
+  font-size: 18px;
+  font-weight: 600;
+  user-select: none;
+}

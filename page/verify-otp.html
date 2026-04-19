@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="uz">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tasdiqlash kodi - Severyanochka</title>
+    <script>
+      if (localStorage.getItem("access")) {
+        window.location.href = "/index.html";
+      }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/verify-otp.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="logo">
+        <span class="logo-text">🛒 Severyanochka</span>
+      </div>
+
+      <div class="icon-wrapper">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path
+            d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"
+          />
+        </svg>
+      </div>
+
+      <h1>Tasdiqlash kodi</h1>
+      <p class="subtitle">
+        Biz <span class="email-display" id="emailDisplay"></span> manziliga 6
+        xonali tasdiqlash kodini yubordik
+      </p>
+
+      <form id="otpForm">
+        <div class="otp-container">
+          <input
+            type="text"
+            class="otp-input"
+            maxlength="1"
+            pattern="[0-9]"
+            inputmode="numeric"
+            data-index="0"
+          />
+          <input
+            type="text"
+            class="otp-input"
+            maxlength="1"
+            pattern="[0-9]"
+            inputmode="numeric"
+            data-index="1"
+          />
+          <input
+            type="text"
+            class="otp-input"
+            maxlength="1"
+            pattern="[0-9]"
+            inputmode="numeric"
+            data-index="2"
+          />
+          <input
+            type="text"
+            class="otp-input"
+            maxlength="1"
+            pattern="[0-9]"
+            inputmode="numeric"
+            data-index="3"
+          />
+          <input
+            type="text"
+            class="otp-input"
+            maxlength="1"
+            pattern="[0-9]"
+            inputmode="numeric"
+            data-index="4"
+          />
+          <input
+            type="text"
+            class="otp-input"
+            maxlength="1"
+            pattern="[0-9]"
+            inputmode="numeric"
+            data-index="5"
+          />
+        </div>
+
+        <div class="error-message" id="errorMessage"></div>
+
+        <button type="submit" class="btn-primary" id="verifyBtn">
+          Tasdiqlash
+        </button>
+      </form>
+
+      <div class="resend-section">
+        <span>Kodni olmadingizmi? </span>
+        <button class="resend-btn" id="resendBtn">Qayta yuborish</button>
+        <span class="timer" id="timer" style="display: none"></span>
+      </div>
+
+      <div class="back-link">
+        <a href="register.html">← Orqaga qaytish</a>
+      </div>
+    </div>
+
+    <script>
+      const otpInputs = document.querySelectorAll(".otp-input");
+      const verifyBtn = document.getElementById("verifyBtn");
+      const errorMessage = document.getElementById("errorMessage");
+      const resendBtn = document.getElementById("resendBtn");
+      const timerDisplay = document.getElementById("timer");
+      const emailDisplay = document.getElementById("emailDisplay");
+      const form = document.getElementById("otpForm");
+
+      // Get email from localStorage
+      const email =
+        localStorage.getItem("register_email") || "example@email.com";
+      emailDisplay.textContent = email;
+
+      // Auto-focus first input
+      otpInputs[0].focus();
+
+      // OTP input handling
+      otpInputs.forEach((input, index) => {
+        input.addEventListener("input", (e) => {
+          const value = e.target.value;
+
+          // Only allow numbers
+          if (!/^\d*$/.test(value)) {
+            e.target.value = "";
+            return;
+          }
+
+          // Clear error state
+          input.classList.remove("error");
+          errorMessage.classList.remove("show");
+
+          // Mark as filled
+          if (value) {
+            input.classList.add("filled");
+            // Move to next input
+            if (index < otpInputs.length - 1) {
+              otpInputs[index + 1].focus();
+            }
+          } else {
+            input.classList.remove("filled");
+          }
+        });
+
+        // Handle backspace
+        input.addEventListener("keydown", (e) => {
+          if (e.key === "Backspace" && !input.value && index > 0) {
+            otpInputs[index - 1].focus();
+          }
+        });
+
+        // Handle paste
+        input.addEventListener("paste", (e) => {
+          e.preventDefault();
+          const pastedData = e.clipboardData.getData("text").trim();
+
+          // Only process if it's 6 digits
+          if (/^\d{6}$/.test(pastedData)) {
+            pastedData.split("").forEach((char, i) => {
+              if (otpInputs[i]) {
+                otpInputs[i].value = char;
+                otpInputs[i].classList.add("filled");
+              }
+            });
+            otpInputs[5].focus();
+          }
+        });
+      });
+
+      // Form submission
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        // Get OTP code
+        const otp = Array.from(otpInputs)
+          .map((input) => input.value)
+          .join("");
+
+        // Validate
+        if (otp.length !== 6) {
+          otpInputs.forEach((input) => input.classList.add("error"));
+          errorMessage.textContent = "Iltimos, 6 xonali kodni to'liq kiriting";
+          errorMessage.classList.add("show");
+          return;
+        }
+
+        // Clear errors
+        otpInputs.forEach((input) => input.classList.remove("error"));
+        errorMessage.classList.remove("show");
+
+        // Disable button
+        verifyBtn.disabled = true;
+        verifyBtn.textContent = "Tekshirilmoqda...";
+
+        try {
+          // Send request to backend
+          const response = await fetch("http://localhost:8000/api/auth/verify-otp/", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ email, verify_code: otp }),
+          });
+
+          const data = await response.json();
+
+          if (!response.ok) {
+            // Show error
+            otpInputs.forEach((input) => input.classList.add("error"));
+            if (data.detail) {
+              errorMessage.textContent = data.detail;
+            } else if (data.non_field_errors) {
+              errorMessage.textContent = data.non_field_errors[0];
+            } else if (data.verify_code) {
+              errorMessage.textContent = data.verify_code[0];
+            } else {
+              errorMessage.textContent = "Xatolik yuz berdi.";
+            }
+            errorMessage.classList.add("show");
+            verifyBtn.disabled = false;
+            verifyBtn.textContent = "Tasdiqlash";
+          } else if (data.access) {
+            // Success - save token and redirect
+            localStorage.setItem("access", data.access);
+            localStorage.setItem("refresh", data.refresh);
+            localStorage.removeItem("register_email");
+            window.location.href = "/index.html";
+          }
+        } catch (error) {
+          console.error("Verification error:", error);
+          errorMessage.textContent =
+            "Xatolik yuz berdi. Qaytadan urinib ko'ring.";
+          errorMessage.classList.add("show");
+          verifyBtn.disabled = false;
+          verifyBtn.textContent = "Tasdiqlash";
+        }
+      });
+
+      // Resend OTP functionality
+      let countdown = 60;
+      let countdownInterval;
+
+      function startCountdown() {
+        resendBtn.disabled = true;
+        resendBtn.style.display = "none";
+        timerDisplay.style.display = "inline";
+        countdown = 60;
+
+        countdownInterval = setInterval(() => {
+          countdown--;
+          timerDisplay.textContent = `(${countdown} soniyadan keyin)`;
+
+          if (countdown <= 0) {
+            clearInterval(countdownInterval);
+            resendBtn.disabled = false;
+            resendBtn.style.display = "inline";
+            timerDisplay.style.display = "none";
+          }
+        }, 1000);
+      }
+
+      resendBtn.addEventListener("click", async () => {
+        try {
+          const response = await fetch("http://localhost:8000/api/resend-otp", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ email }),
+          });
+
+          const data = await response.json();
+
+          if (data.success) {
+            // Start countdown
+            startCountdown();
+
+            // Show success message temporarily
+            errorMessage.style.color = "var(--success-green)";
+            errorMessage.textContent = "Kod qayta yuborildi!";
+            errorMessage.classList.add("show");
+
+            setTimeout(() => {
+              errorMessage.classList.remove("show");
+              errorMessage.style.color = "var(--error-red)";
+            }, 3000);
+          }
+        } catch (error) {
+          console.error("Resend error:", error);
+        }
+      });
+
+      // Start countdown on page load
+      startCountdown();
+    </script>
+  </body>
+</html>

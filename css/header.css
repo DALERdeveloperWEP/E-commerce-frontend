@@ -1,0 +1,231 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+header{
+  width: 100%;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
+  z-index: 1000;
+  position: relative;
+}
+.head {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 80px;
+  padding: 12px;
+  gap: 10px;
+  /* background-color: #baa9b0 */
+}
+.img_logo{
+  width: 100%;
+}
+.svg_header{
+  width: 100%;
+  height: 100%;
+}
+.logoText_card {
+  display: flex;
+  gap: 15px;
+  height: 80%;
+  align-items: center;
+}
+.logoText_card > .text_logo > a > h2 {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-size: 18px;
+  color: #414141;
+}
+
+.menyu_card {
+  width: 150px;
+  height: 80%;
+  background-color: #70c05b;
+  display: flex;
+  justify-content: space-evenly;
+  padding-top: 10px;
+  border-radius: 6px;
+  color: white;
+  font-family: monospace;
+  font-size: 16px;
+  border: none;
+}
+.svg_menyu > i{
+  color:white;
+  font-size: 27px;
+}
+.search_card {
+  width: 450px;
+  height: 80%;
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+.qiduruv {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+}
+
+.input_search {
+  width: 100%;
+  height: 100%;
+  font-family: monospace;
+  padding: 15px;
+  border: 1px solid #70c05b;
+  border-radius: 6px;
+}
+.lupa {
+  transition: 0.8s;
+  position: absolute;
+  right: 0;
+  top: 10px;
+  padding-right: 6px;
+}
+.lupa > a > i {
+  color:#baa9b0;
+}
+.button_card {
+  width: 250px;
+  height: 90%;
+  display: flex;
+  justify-content: space-around;
+}
+.button_card a {
+  width: 30%;
+  border: none;
+  transition: 0.6s;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  background: none;
+  font-weight: 500;
+  color: #414141;
+  align-items: center;
+  position: relative;
+}
+
+.button_card a p {
+  font-family: monospace;
+}
+
+.button_card > a > img{
+  margin-top: 10px;
+  width: 40px;
+  border-radius: 50%;
+}
+.button_card a:hover{
+  color: #FF6633;
+}
+.button_card a i{
+  font-size: 20px;
+}
+.Logo_card {
+  width: 190px;
+  height: 55px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: 10px;
+}
+
+.Logo_card .menyu_logo img {
+  width: 45px;
+  border-radius: 50%;
+}
+.Logo_card h4 {
+  font-weight: 500;
+  font-family: "Winky Sans", sans-serif;
+  color: #414141;
+}
+.menyu_logo{
+  height: 90%;
+  width: 120px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.menyu_logo > a{
+  display: flex;
+  align-items: center;
+}
+.btn_sign_sat_profil{
+  background: none;
+  border: none;
+}
+
+
+.lupa > a > i:hover{
+  color: #70c05b;
+} 
+
+.button_card .img_header{
+  display: none;
+}
+
+/* .Logo_card{
+  display: none;
+} */
+
+.button_card a:first-child{
+  display: none;
+}
+button:hover{
+  cursor: pointer;
+}
+.counter_heder{
+  width: 18px;
+  height: 18px;
+  background-color: #FF6633;
+  color: white;
+  position: absolute;
+  top: 0;
+  left: 40px;
+  border-radius: 30%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ─── Seller Dropdown ──────────────────────────────────────────────────── */
+.Logo_card {
+  position: relative;
+}
+.seller_dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+  min-width: 220px;
+  z-index: 9999;
+  overflow: hidden;
+  animation: dropdownFadeIn 0.2s ease;
+}
+@keyframes dropdownFadeIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.seller_menu_item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 18px;
+  color: #414141;
+  font-size: 14px;
+  font-family: system-ui, sans-serif;
+  text-decoration: none;
+  transition: background 0.2s;
+  border-left: 3px solid transparent;
+}
+.seller_menu_item:hover {
+  background: #f5f5f5;
+  border-left-color: #FF6633;
+  color: #FF6633;
+}
+.seller_menu_item i {
+  font-size: 20px;
+  color: #70c05b;
+}

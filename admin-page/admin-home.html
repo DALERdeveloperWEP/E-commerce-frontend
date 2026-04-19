@@ -1,0 +1,804 @@
+<!doctype html>
+<html lang="uz">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Panel — Mahsulotlarni Boshqarish</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://cdn.boxicons.com/fonts/basic/boxicons.min.css" rel="stylesheet" />
+    <style>
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+      :root {
+        --primary: #FF6633;
+        --primary-light: #fff1ec;
+        --green: #70c05b;
+        --green-light: #e5ffde;
+        --sidebar-bg: #1e1f26;
+        --sidebar-hover: #2a2b35;
+        --sidebar-active: #FF6633;
+        --text: #414141;
+        --text-muted: #888;
+        --border: #e8e8e8;
+        --bg: #f5f6fa;
+        --white: #ffffff;
+        --shadow: 0 2px 16px rgba(0,0,0,0.08);
+        --radius: 12px;
+      }
+
+      body {
+        font-family: 'Inter', sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        display: flex;
+        min-height: 100vh;
+      }
+
+      /* ─── SIDEBAR ─────────────────────────────────────────────── */
+      .sidebar {
+        width: 240px;
+        min-height: 100vh;
+        background: var(--sidebar-bg);
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        left: 0; top: 0; bottom: 0;
+        z-index: 100;
+        transition: width 0.3s;
+      }
+      .sidebar-logo {
+        padding: 24px 20px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        border-bottom: 1px solid rgba(255,255,255,0.07);
+      }
+      .sidebar-logo .logo-icon {
+        width: 38px; height: 38px;
+        background: var(--primary);
+        border-radius: 10px;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 20px; color: white;
+        flex-shrink: 0;
+      }
+      .sidebar-logo span {
+        font-weight: 700;
+        font-size: 16px;
+        color: white;
+        white-space: nowrap;
+      }
+      .sidebar-logo .sub {
+        font-size: 11px;
+        color: rgba(255,255,255,0.4);
+        font-weight: 400;
+        display: block;
+      }
+      .sidebar-nav {
+        padding: 16px 12px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+      .nav-label {
+        font-size: 10px;
+        font-weight: 600;
+        color: rgba(255,255,255,0.3);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        padding: 12px 8px 6px;
+      }
+      .nav-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 11px 14px;
+        border-radius: 8px;
+        color: rgba(255,255,255,0.6);
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s;
+        border: none;
+        background: none;
+        width: 100%;
+        text-align: left;
+        text-decoration: none;
+      }
+      .nav-item i { font-size: 20px; flex-shrink: 0; }
+      .nav-item:hover { background: var(--sidebar-hover); color: white; }
+      .nav-item.active {
+        background: var(--primary);
+        color: white;
+        box-shadow: 0 4px 12px rgba(255,102,51,0.4);
+      }
+      .sidebar-footer {
+        padding: 16px 12px;
+        border-top: 1px solid rgba(255,255,255,0.07);
+      }
+
+      /* ─── MAIN CONTENT ────────────────────────────────────────── */
+      .main-content {
+        margin-left: 240px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+      .topbar {
+        background: var(--white);
+        height: 64px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 28px;
+        box-shadow: 0 1px 0 var(--border);
+        position: sticky; top: 0; z-index: 50;
+      }
+      .topbar-title {
+        font-size: 18px;
+        font-weight: 700;
+        color: var(--text);
+      }
+      .topbar-actions { display: flex; align-items: center; gap: 12px; }
+      .btn-back {
+        display: flex; align-items: center; gap: 6px;
+        padding: 7px 14px;
+        border-radius: 8px;
+        background: none;
+        border: 1px solid var(--border);
+        color: var(--text-muted);
+        font-size: 13px; font-weight: 500;
+        cursor: pointer; transition: all 0.2s;
+        text-decoration: none;
+      }
+      .btn-back:hover { background: var(--bg); color: var(--text); }
+
+      .page { display: none; padding: 28px; }
+      .page.active { display: block; }
+
+      /* ─── STAT CARDS ──────────────────────────────────────────── */
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 18px;
+        margin-bottom: 28px;
+      }
+      .stat-card {
+        background: var(--white);
+        border-radius: var(--radius);
+        padding: 20px;
+        box-shadow: var(--shadow);
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+      .stat-icon {
+        width: 48px; height: 48px;
+        border-radius: 12px;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 22px;
+      }
+      .stat-icon.orange { background: var(--primary-light); color: var(--primary); }
+      .stat-icon.green  { background: var(--green-light);   color: var(--green); }
+      .stat-info p { font-size: 12px; color: var(--text-muted); margin-bottom: 4px; }
+      .stat-info span { font-size: 22px; font-weight: 700; color: var(--text); }
+
+      /* ─── SECTION HEADER ──────────────────────────────────────── */
+      .section-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 20px;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+      .section-title {
+        font-size: 20px; font-weight: 700;
+      }
+      .btn-primary {
+        display: flex; align-items: center; gap: 7px;
+        padding: 10px 20px;
+        background: var(--primary);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 14px; font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        box-shadow: 0 4px 12px rgba(255,102,51,0.3);
+      }
+      .btn-primary:hover { background: #e55522; transform: translateY(-1px); }
+      .btn-success {
+        background: var(--green);
+        box-shadow: 0 4px 12px rgba(112,192,91,0.3);
+      }
+      .btn-success:hover { background: #5aaa47; }
+
+      /* ─── PRODUCT GRID (matches index.html style) ─────────────── */
+      .products-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 20px;
+      }
+      .shoping {
+        background: white;
+        border-radius: 8px;
+        box-shadow: rgba(0,0,0,0.12) 0 3px 8px;
+        padding: 5px;
+        transition: 0.3s;
+        position: relative;
+        overflow: hidden;
+      }
+      .shoping:hover { transform: scale(1.02); }
+      .shoping .img_product {
+        width: 100%; height: 160px;
+        position: relative;
+        overflow: hidden;
+        display: flex; align-items: center; justify-content: center;
+        background: #f8f8f8;
+      }
+      .shoping .img_product img {
+        width: 100%; height: 100%;
+        object-fit: cover;
+        border-radius: 6px;
+      }
+      .foiz {
+        position: absolute; bottom: 8px; left: 8px;
+        background: var(--primary);
+        color: white; font-size: 12px; font-weight: 600;
+        padding: 3px 8px; border-radius: 6px;
+      }
+      .stock-badge {
+        position: absolute; top: 8px; right: 8px;
+        background: rgba(112,192,91,0.9);
+        color: white; font-size: 11px;
+        padding: 2px 8px; border-radius: 20px;
+      }
+      .stock-badge.out { background: rgba(255,102,51,0.9); }
+      .info_product {
+        padding: 10px 8px 8px;
+        display: flex; flex-direction: column; gap: 6px;
+      }
+      .narx { display: flex; justify-content: space-between; align-items: center; }
+      .narx .price-main { font-weight: 700; font-size: 16px; color: var(--text); }
+      .narx .price-old { font-size: 13px; color: var(--text-muted); text-decoration: line-through; }
+      .city { font-size: 13px; color: var(--text); line-height: 1.4; }
+      .brand-badge {
+        font-size: 11px; color: var(--text-muted);
+        background: var(--bg); padding: 2px 8px; border-radius: 20px;
+        display: inline-block;
+      }
+      .product-actions {
+        display: flex; gap: 8px; margin-top: 6px;
+      }
+      .product-actions button {
+        flex: 1; height: 36px;
+        border-radius: 6px;
+        font-size: 13px; font-weight: 500;
+        border: none; cursor: pointer;
+        transition: all 0.2s;
+      }
+      .btn-edit {
+        background: var(--primary-light); color: var(--primary);
+        border: 1px solid rgba(255,102,51,0.25) !important;
+      }
+      .btn-edit:hover { background: var(--primary); color: white; }
+      .btn-delete {
+        background: #fff0f0; color: #e53935;
+        border: 1px solid rgba(229,57,53,0.2) !important;
+      }
+      .btn-delete:hover { background: #e53935; color: white; }
+
+      /* ─── CATEGORIES GRID ─────────────────────────────────────── */
+      .categories-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 16px;
+      }
+      .category-card {
+        background: white;
+        border-radius: var(--radius);
+        overflow: hidden;
+        box-shadow: var(--shadow);
+        transition: 0.3s;
+        cursor: pointer;
+      }
+      .category-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,0.12); }
+      .category-card .cat-img {
+        width: 100%; height: 110px;
+        background: var(--bg);
+        overflow: hidden;
+      }
+      .category-card .cat-img img {
+        width: 100%; height: 100%;
+        object-fit: cover;
+      }
+      .cat-info { padding: 12px; }
+      .cat-name { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+      .cat-slug { font-size: 11px; color: var(--text-muted); }
+      .cat-actions {
+        display: flex; gap: 6px; padding: 0 12px 12px;
+      }
+      .cat-actions button {
+        flex: 1; height: 30px;
+        border-radius: 6px; border: none;
+        font-size: 12px; cursor: pointer; transition: 0.2s;
+      }
+
+      /* ─── MODAL ───────────────────────────────────────────────── */
+      .modal-overlay {
+        display: none;
+        position: fixed; inset: 0;
+        background: rgba(0,0,0,0.45);
+        z-index: 1000;
+        align-items: center; justify-content: center;
+        backdrop-filter: blur(2px);
+      }
+      .modal-overlay.open { display: flex; }
+      .modal {
+        background: white;
+        border-radius: 16px;
+        width: 90%;
+        max-width: 560px;
+        max-height: 90vh;
+        overflow-y: auto;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+        animation: modalIn 0.25s ease;
+      }
+      @keyframes modalIn {
+        from { opacity: 0; transform: scale(0.95) translateY(-10px); }
+        to   { opacity: 1; transform: scale(1) translateY(0); }
+      }
+      .modal-header {
+        display: flex; align-items: center; justify-content: space-between;
+        padding: 20px 24px 16px;
+        border-bottom: 1px solid var(--border);
+        position: sticky; top: 0; background: white; z-index: 1;
+      }
+      .modal-header h3 { font-size: 17px; font-weight: 700; }
+      .modal-close {
+        width: 32px; height: 32px;
+        background: var(--bg); border: none;
+        border-radius: 8px; cursor: pointer;
+        font-size: 18px; color: var(--text-muted);
+        display: flex; align-items: center; justify-content: center;
+        transition: 0.2s;
+      }
+      .modal-close:hover { background: #f0f0f0; color: var(--text); }
+      .modal-body { padding: 20px 24px; }
+      .modal-footer {
+        padding: 16px 24px;
+        border-top: 1px solid var(--border);
+        display: flex; gap: 10px; justify-content: flex-end;
+      }
+
+      /* ─── FORM ────────────────────────────────────────────────── */
+      .form-group { margin-bottom: 16px; }
+      .form-group label {
+        display: block; font-size: 13px; font-weight: 600;
+        color: var(--text); margin-bottom: 6px;
+      }
+      .form-control {
+        width: 100%;
+        height: 42px;
+        border: 1.5px solid var(--border);
+        border-radius: 8px;
+        padding: 0 12px;
+        font-size: 14px; font-family: inherit;
+        color: var(--text);
+        transition: border 0.2s;
+        outline: none;
+      }
+      .form-control:focus { border-color: var(--primary); }
+      textarea.form-control {
+        height: 80px; padding: 10px 12px;
+        resize: vertical;
+      }
+      .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+      .toggle-row {
+        display: flex; align-items: center; justify-content: space-between;
+        padding: 12px;
+        background: var(--bg);
+        border-radius: 8px;
+      }
+      .toggle-label { font-size: 14px; font-weight: 500; }
+
+      /* Toggle switch */
+      .toggle { position: relative; display: inline-block; width: 44px; height: 24px; }
+      .toggle input { opacity: 0; width: 0; height: 0; }
+      .toggle-slider {
+        position: absolute; inset: 0;
+        background: #ccc; border-radius: 24px;
+        cursor: pointer; transition: 0.3s;
+      }
+      .toggle-slider:before {
+        content: ''; position: absolute;
+        width: 18px; height: 18px;
+        left: 3px; top: 3px;
+        background: white; border-radius: 50%;
+        transition: 0.3s;
+      }
+      .toggle input:checked + .toggle-slider { background: var(--green); }
+      .toggle input:checked + .toggle-slider:before { transform: translateX(20px); }
+
+      .btn-cancel {
+        padding: 10px 20px;
+        background: var(--bg);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        font-size: 14px; font-weight: 500;
+        cursor: pointer; color: var(--text);
+        transition: 0.2s;
+      }
+      .btn-cancel:hover { background: #ebebeb; }
+
+      /* ─── LOADING / EMPTY ─────────────────────────────────────── */
+      .loading-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 20px;
+      }
+      .skeleton {
+        background: #e8e8e8;
+        border-radius: var(--radius);
+        height: 280px;
+        animation: pulse 1.5s infinite;
+      }
+      @keyframes pulse {
+        0%,100% { opacity: 1; }
+        50% { opacity: 0.5; }
+      }
+      .empty-state {
+        text-align: center;
+        padding: 60px 20px;
+        color: var(--text-muted);
+      }
+      .empty-state i { font-size: 48px; margin-bottom: 14px; display: block; opacity: 0.4; }
+      .empty-state p { font-size: 15px; }
+
+      /* ─── TOAST ───────────────────────────────────────────────── */
+      .toast-container {
+        position: fixed; top: 20px; right: 20px;
+        z-index: 9999;
+        display: flex; flex-direction: column; gap: 8px;
+      }
+      .toast {
+        padding: 12px 18px;
+        border-radius: 10px;
+        color: white;
+        font-size: 14px; font-weight: 500;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+        animation: toastIn 0.3s ease;
+        min-width: 220px;
+      }
+      .toast.success { background: var(--green); }
+      .toast.error   { background: #e53935; }
+      @keyframes toastIn {
+        from { opacity: 0; transform: translateX(20px); }
+        to   { opacity: 1; transform: translateX(0); }
+      }
+
+      /* ─── DETAIL PANEL ────────────────────────────────────────── */
+      .detail-panel {
+        display: none;
+        background: white;
+        border-radius: var(--radius);
+        padding: 28px;
+        box-shadow: var(--shadow);
+        margin-bottom: 24px;
+      }
+      .detail-panel.open { display: block; }
+      .detail-panel .dp-header {
+        display: flex; align-items: flex-start; gap: 20px;
+        flex-wrap: wrap;
+      }
+      .dp-img {
+        width: 180px; height: 180px;
+        border-radius: 12px;
+        overflow: hidden; flex-shrink: 0;
+        background: var(--bg);
+      }
+      .dp-img img { width: 100%; height: 100%; object-fit: cover; }
+      .dp-info { flex: 1; min-width: 200px; }
+      .dp-title { font-size: 22px; font-weight: 700; margin-bottom: 6px; }
+      .dp-meta { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+      .dp-badge {
+        padding: 4px 10px; border-radius: 20px;
+        font-size: 12px; font-weight: 600;
+      }
+      .dp-badge.orange { background: var(--primary-light); color: var(--primary); }
+      .dp-badge.green  { background: var(--green-light);   color: var(--green); }
+      .dp-badge.gray   { background: var(--bg); color: var(--text-muted); }
+      .dp-desc { font-size: 14px; color: var(--text-muted); line-height: 1.6; }
+      .dp-actions { display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
+
+      .search-bar {
+        padding: 9px 14px;
+        border: 1.5px solid var(--border);
+        border-radius: 8px;
+        font-size: 14px; font-family: inherit;
+        outline: none; color: var(--text);
+        transition: border 0.2s;
+        min-width: 220px;
+      }
+      .search-bar:focus { border-color: var(--primary); }
+
+      /* ─── File Upload ──────────────────────────────────────────────────────── */
+      .file-upload-wrap { position: relative; }
+      .file-input {
+        position: absolute; inset: 0;
+        opacity: 0; cursor: pointer; width: 100%; height: 100%;
+      }
+      .file-upload-label {
+        display: flex; align-items: center; gap: 10px;
+        padding: 10px 14px;
+        border: 2px dashed var(--border);
+        border-radius: 8px;
+        cursor: pointer;
+        color: var(--text-muted);
+        font-size: 14px;
+        transition: border 0.2s, background 0.2s;
+        background: var(--bg);
+      }
+      .file-upload-label:hover { border-color: var(--primary); background: var(--primary-light); color: var(--primary); }
+      .file-upload-label i { font-size: 20px; }
+      .img-preview-wrap {
+        margin-top: 10px;
+        display: none;
+        border-radius: 8px;
+        overflow: hidden;
+        border: 1px solid var(--border);
+        max-height: 160px;
+      }
+      .img-preview-wrap img {
+        width: 100%; height: 160px;
+        object-fit: cover; display: block;
+      }
+      .img-preview-wrap.show { display: block; }
+      .current-image-note {
+        margin-top: 6px;
+        font-size: 12px;
+        color: var(--text-muted);
+      }
+      .current-image-note a {
+        color: var(--primary);
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+
+    <!-- ─────────────── SIDEBAR ─────────────── -->
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <div class="logo-icon"><i class="bxr bx-store"></i></div>
+        <div>
+          <span>Admin Panel</span>
+          <span class="sub">Severyanochka</span>
+        </div>
+      </div>
+      <nav class="sidebar-nav">
+        <div class="nav-label">Boshqaruv</div>
+        <button class="nav-item active" id="nav-products" onclick="showPage('products')">
+          <i class="bxr bx-box-alt"></i> Mahsulotlar
+        </button>
+        <button class="nav-item" id="nav-categories" onclick="showPage('categories')">
+          <i class="bxr bx-category"></i> Kategoriyalar
+        </button>
+      </nav>
+      <div class="sidebar-footer">
+        <a href="../index.html" class="nav-item">
+          <i class="bxr bx-arrow-back"></i> Asosiy sahifa
+        </a>
+      </div>
+    </aside>
+
+    <!-- ─────────────── MAIN ─────────────── -->
+    <div class="main-content">
+
+      <!-- Topbar -->
+      <div class="topbar">
+        <span class="topbar-title" id="topbarTitle">Mahsulotlar</span>
+        <div class="topbar-actions">
+          <input class="search-bar" id="searchBar" placeholder="Qidirish..." oninput="handleSearch()" />
+          <button class="btn-primary" id="addBtn" onclick="openAddModal()">
+            <i class="bxr bx-plus"></i> Yangi qo'shish
+          </button>
+        </div>
+      </div>
+
+      <!-- ── PRODUCTS PAGE ── -->
+      <div class="page active" id="page-products">
+        <div class="stats-grid" id="productStats">
+          <div class="stat-card">
+            <div class="stat-icon orange"><i class="bxr bx-box-alt"></i></div>
+            <div class="stat-info"><p>Jami mahsulotlar</p><span id="totalProducts">—</span></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon green"><i class="bxr bx-check-circle"></i></div>
+            <div class="stat-info"><p>Mavjud</p><span id="availableProducts">—</span></div>
+          </div>
+        </div>
+
+        <!-- Detail panel (product) -->
+        <div class="detail-panel" id="productDetail">
+          <div class="dp-header">
+            <div class="dp-img"><img id="dp-img" src="" alt="" /></div>
+            <div class="dp-info">
+              <div class="dp-title" id="dp-title"></div>
+              <div class="dp-meta" id="dp-meta"></div>
+              <div class="dp-desc" id="dp-desc"></div>
+              <div class="dp-actions">
+                <button class="btn-primary btn-success" onclick="editFromDetail()"><i class="bxr bx-edit"></i> Tahrirlash</button>
+                <button class="btn-primary" style="background:#e53935;box-shadow:0 4px 12px rgba(229,57,53,0.3)" onclick="deleteFromDetail()"><i class="bxr bx-trash"></i> O'chirish</button>
+                <button class="btn-cancel" onclick="closeDetail('product')">Yopish</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-header">
+          <div class="section-title">Barcha Mahsulotlar</div>
+        </div>
+        <div id="productsContainer"><div class="loading-grid">
+            <div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div>
+            <div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div>
+        </div></div>
+      </div>
+
+      <!-- ── CATEGORIES PAGE ── -->
+      <div class="page" id="page-categories">
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon orange"><i class="bxr bx-category"></i></div>
+            <div class="stat-info"><p>Jami kategoriyalar</p><span id="totalCategories">—</span></div>
+          </div>
+        </div>
+
+        <!-- Detail panel (category) -->
+        <div class="detail-panel" id="categoryDetail">
+          <div class="dp-header">
+            <div class="dp-img"><img id="cdp-img" src="" alt="" /></div>
+            <div class="dp-info">
+              <div class="dp-title" id="cdp-name"></div>
+              <div class="dp-meta" id="cdp-meta"></div>
+              <div class="dp-actions">
+                <button class="btn-primary btn-success" onclick="editCatFromDetail()"><i class="bxr bx-edit"></i> Tahrirlash</button>
+                <button class="btn-primary" style="background:#e53935;box-shadow:0 4px 12px rgba(229,57,53,0.3)" onclick="deleteCatFromDetail()"><i class="bxr bx-trash"></i> O'chirish</button>
+                <button class="btn-cancel" onclick="closeDetail('category')">Yopish</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-header">
+          <div class="section-title">Barcha Kategoriyalar</div>
+        </div>
+        <div id="categoriesContainer"><div class="loading-grid">
+            <div class="skeleton"></div><div class="skeleton"></div>
+            <div class="skeleton"></div><div class="skeleton"></div>
+        </div></div>
+      </div>
+    </div><!-- /main-content -->
+
+    <!-- ─────────────── PRODUCT MODAL ─────────────── -->
+    <div class="modal-overlay" id="productModal">
+      <div class="modal">
+        <div class="modal-header">
+          <h3 id="productModalTitle">Yangi mahsulot</h3>
+          <button class="modal-close" onclick="closeModal('productModal')">&times;</button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" id="productId" />
+          <div class="form-group">
+            <label>Nomi *</label>
+            <input class="form-control" id="productTitle" placeholder="Mahsulot nomi" />
+          </div>
+          <div class="form-group">
+            <label>Tavsif</label>
+            <textarea class="form-control" id="productDesc" placeholder="Mahsulot haqida..."></textarea>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Oddiy narx — Обычная (₽) *</label>
+              <input class="form-control" id="productRegularPrice" type="number" placeholder="0.00" />
+            </div>
+            <div class="form-group">
+              <label>Karta narxi — С картой (₽)</label>
+              <input class="form-control" id="productCardPrice" type="number" placeholder="0.00" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Brand *</label>
+              <input class="form-control" id="productBrand" placeholder="Brand nomi" />
+            </div>
+            <div class="form-group">
+              <label>Mamlakat *</label>
+              <input class="form-control" id="productCountry" placeholder="Rossiya" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Og'irligi *</label>
+              <input class="form-control" id="productWeight" placeholder="500g" />
+            </div>
+            <div class="form-group">
+              <label>Ombordagi soni *</label>
+              <input class="form-control" id="productStock" type="number" placeholder="0" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Rasm (fayl) *</label>
+            <div class="file-upload-wrap">
+              <label class="file-upload-label" for="productImage">
+                <i class="bxr bx-image-add"></i>
+                <span id="productImageLabel">Fayl tanlang...</span>
+              </label>
+              <input class="file-input" type="file" id="productImage" accept="image/*" onchange="previewImage(this,'productImagePreview','productImageLabel')" />
+            </div>
+            <div class="img-preview-wrap" id="productImagePreviewWrap">
+              <img id="productImagePreview" src="" alt="" />
+            </div>
+            <div id="productCurrentImage" class="current-image-note"></div>
+          </div>
+          <div class="toggle-row">
+            <span class="toggle-label">Mavjud (is_available)</span>
+            <label class="toggle">
+              <input type="checkbox" id="productAvailable" checked />
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn-cancel" onclick="closeModal('productModal')">Bekor</button>
+          <button class="btn-primary" onclick="saveProduct()"><i class="bxr bx-save"></i> Saqlash</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─────────────── CATEGORY MODAL ─────────────── -->
+    <div class="modal-overlay" id="categoryModal">
+      <div class="modal">
+        <div class="modal-header">
+          <h3 id="categoryModalTitle">Yangi kategoriya</h3>
+          <button class="modal-close" onclick="closeModal('categoryModal')">&times;</button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" id="categoryId" />
+          <div class="form-group">
+            <label>Nomi *</label>
+            <input class="form-control" id="categoryName" placeholder="Kategoriya nomi" />
+          </div>
+          <div class="form-group">
+            <label>Rasm (fayl) *</label>
+            <div class="file-upload-wrap">
+              <label class="file-upload-label" for="categoryImage">
+                <i class="bxr bx-image-add"></i>
+                <span id="categoryImageLabel">Fayl tanlang...</span>
+              </label>
+              <input class="file-input" type="file" id="categoryImage" accept="image/*" onchange="previewImage(this,'categoryImagePreview','categoryImageLabel')" />
+            </div>
+            <div class="img-preview-wrap" id="categoryImagePreviewWrap">
+              <img id="categoryImagePreview" src="" alt="" />
+            </div>
+            <div id="categoryCurrentImage" class="current-image-note"></div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn-cancel" onclick="closeModal('categoryModal')">Bekor</button>
+          <button class="btn-primary" onclick="saveCategory()"><i class="bxr bx-save"></i> Saqlash</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="../js/api.js" defer></script>
+    <script src="../js/admin-home.js" defer></script>
+
+
+  </body>
+</html>

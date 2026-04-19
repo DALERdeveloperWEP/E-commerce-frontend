@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Пользователи — Северяночка</title>
+    <link rel="stylesheet" href="../css/header.css" />
+    <link rel="stylesheet" href="../css/dropdown.css" />
+    <link rel="stylesheet" href="../css/users.css" />
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+</head>
+<body>
+    <header id="site-header"></header>
+
+    <main class="users-main">
+        <div class="users-container">
+
+            <!-- Page header -->
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title">Пользователи</h1>
+                    <p class="page-sub">Управление аккаунтами</p>
+                </div>
+                <div class="page-header-actions">
+                    <div class="search-box">
+                        <i class="bx bx-search"></i>
+                        <input type="text" id="searchInput" placeholder="Поиск по имени, телефону…" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabs -->
+            <div class="tab-bar">
+                <button class="tab-btn active" data-tab="users">
+                    <i class="bx bx-user"></i> Пользователи
+                    <span class="tab-count" id="usersCount">—</span>
+                </button>
+                <button class="tab-btn" data-tab="sellers">
+                    <i class="bx bx-store"></i> Продавцы
+                    <span class="tab-count" id="sellersCount">—</span>
+                </button>
+            </div>
+
+            <!-- Users tab -->
+            <div class="users-tab active" id="tab-users">
+                <div class="table-wrap">
+                    <div class="loading-state" id="usersLoading">
+                        <span class="spinner"></span><p>Загрузка…</p>
+                    </div>
+                    <div class="empty-state hidden" id="usersEmpty">
+                        <i class="bx bx-user-x"></i>
+                        <p>Пользователи не найдены</p>
+                    </div>
+                    <table class="users-table hidden" id="usersTable">
+                        <thead>
+                            <tr>
+                                <th>Пользователь</th>
+                                <th>Телефон</th>
+                                <th>Пол</th>
+                                <th>Карта</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usersTbody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Sellers tab -->
+            <div class="users-tab" id="tab-sellers">
+                <div class="table-wrap">
+                    <div class="loading-state" id="sellersLoading">
+                        <span class="spinner"></span><p>Загрузка…</p>
+                    </div>
+                    <div class="empty-state hidden" id="sellersEmpty">
+                        <i class="bx bx-store-alt"></i>
+                        <p>Продавцы не найдены</p>
+                    </div>
+                    <table class="users-table hidden" id="sellersTable">
+                        <thead>
+                            <tr>
+                                <th>Продавец</th>
+                                <th>Телефон</th>
+                                <th>Пол</th>
+                            </tr>
+                        </thead>
+                        <tbody id="sellersTbody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- User detail modal -->
+    <div class="modal-overlay hidden" id="userModal">
+        <div class="modal">
+            <button class="modal-close" id="modalClose"><i class="bx bx-x"></i></button>
+            <div class="modal-content" id="modalContent"></div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="../js/api.js"></script>
+    <script src="../js/header.js"></script>
+    <script src="./users.js"></script>
+</body>
+</html>

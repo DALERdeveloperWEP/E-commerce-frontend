@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Профиль — Северяночка</title>
+    <link rel="stylesheet" href="../css/header.css" />
+    <link rel="stylesheet" href="../css/dropdown.css" />
+    <link rel="stylesheet" href="../css/profile.css" />
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+</head>
+<body>
+    <!-- HEADER (same as index) -->
+    <header id="site-header"></header>
+
+    <main class="profile-main">
+        <div class="profile-container">
+
+            <!-- Sidebar -->
+            <aside class="profile-sidebar">
+                <div class="profile-card">
+                    <div class="profile-avatar-wrap" id="avatarWrap">
+                        <img id="profileAvatar" src="" alt="" class="profile-avatar hidden" />
+                        <div id="profileInitials" class="profile-avatar profile-initials hidden"></div>
+                        <label class="avatar-upload-btn" title="Изменить фото">
+                            <i class="bx bx-camera"></i>
+                            <input type="file" accept="image/*" id="avatarInput" hidden />
+                        </label>
+                    </div>
+                    <h2 class="profile-name" id="profileName">—</h2>
+                    <span class="profile-role-badge" id="profileRoleBadge"></span>
+                </div>
+
+                <nav class="profile-nav">
+                    <a href="#info" class="pnav-item active" data-tab="info">
+                        <i class="bx bx-user"></i> Личные данные
+                    </a>
+                    <a href="#security" class="pnav-item" data-tab="security">
+                        <i class="bx bx-lock-alt"></i> Безопасность
+                    </a>
+                    <a href="../page/orders.html" class="pnav-item">
+                        <i class="bx bx-box-alt"></i> Мои заказы
+                    </a>
+                </nav>
+            </aside>
+
+            <!-- Content -->
+            <section class="profile-content">
+
+                <!-- Loading -->
+                <div class="profile-loading" id="profileLoading">
+                    <span class="spinner"></span>
+                    <p>Загрузка профиля…</p>
+                </div>
+
+                <!-- Info tab -->
+                <div class="profile-tab active" id="tab-info">
+                    <div class="tab-header">
+                        <h1>Личные данные</h1>
+                        <button class="btn-edit" id="editBtn">
+                            <i class="bx bx-pencil"></i> Редактировать
+                        </button>
+                    </div>
+
+                    <form class="profile-form" id="profileForm" novalidate>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Имя</label>
+                                <input type="text" id="firstName" name="first_name" placeholder="Введите имя" disabled />
+                            </div>
+                            <div class="form-group">
+                                <label>Фамилия</label>
+                                <input type="text" id="lastName" name="last_name" placeholder="Не указана" disabled />
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="email" id="emailField" name="email" placeholder="Email" disabled />
+                            </div>
+                            <div class="form-group">
+                                <label>Телефон</label>
+                                <input type="tel" id="phoneField" name="phone" placeholder="Не указан" disabled />
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Пол</label>
+                                <select id="genderField" name="gender" disabled>
+                                    <option value="">Не указан</option>
+                                    <option value="male">Мужской</option>
+                                    <option value="female">Женский</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Карта лояльности</label>
+                                <div class="info-badge" id="cardBadge">—</div>
+                            </div>
+                        </div>
+
+                        <!-- Cashback block (shown only if present) -->
+                        <div class="cashback-card hidden" id="cashbackCard">
+                            <i class="bx bx-coin-stack cashback-icon"></i>
+                            <div>
+                                <span class="cashback-label">Кешбэк</span>
+                                <span class="cashback-amount" id="cashbackAmount">0 ₽</span>
+                            </div>
+                        </div>
+
+                        <div class="form-actions hidden" id="formActions">
+                            <button type="button" class="btn-cancel" id="cancelBtn">Отмена</button>
+                            <button type="submit" class="btn-save">
+                                <i class="bx bx-check"></i> Сохранить
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Security tab -->
+                <div class="profile-tab" id="tab-security">
+                    <div class="tab-header">
+                        <h1>Безопасность</h1>
+                    </div>
+                    <form class="profile-form" id="passwordForm" novalidate>
+                        <div class="form-group full">
+                            <label>Текущий пароль</label>
+                            <div class="input-eye">
+                                <input type="password" id="currentPass" placeholder="••••••••" />
+                                <button type="button" class="eye-btn" data-target="currentPass"><i class="bx bx-hide"></i></button>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Новый пароль</label>
+                                <div class="input-eye">
+                                    <input type="password" id="newPass" placeholder="••••••••" />
+                                    <button type="button" class="eye-btn" data-target="newPass"><i class="bx bx-hide"></i></button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Подтвердите пароль</label>
+                                <div class="input-eye">
+                                    <input type="password" id="confirmPass" placeholder="••••••••" />
+                                    <button type="button" class="eye-btn" data-target="confirmPass"><i class="bx bx-hide"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn-save">
+                                <i class="bx bx-lock-open-alt"></i> Сменить пароль
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+            </section>
+        </div>
+    </main>
+
+    <!-- Toast -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="../js/api.js"></script>
+    <script src="../js/header.js"></script>
+    <script src="./profile.js"></script>
+</body>
+</html>

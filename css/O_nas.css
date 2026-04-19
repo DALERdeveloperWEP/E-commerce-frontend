@@ -1,0 +1,83 @@
+
+.head-o_nas{
+    width: 100%;
+    height: 400px;
+    padding: 10px;
+}
+.menyu_head{
+    margin-bottom: 50px;
+}
+.main-o_nas{
+    display: flex;
+    width: 100%;
+    height: 95%;
+}
+.left_main{
+    flex: 1;
+    padding: 10px;
+}
+.left_main h1{
+    font-size: 64px;
+    color: #414141;
+    margin-bottom: 15px;
+}
+.left_main h2{
+    font-size: 24px;
+    color: #FF6633;
+}
+.right_main{
+    flex: 1.2;
+    padding: 10px;
+    display: flex;
+    align-items: end;
+}
+.right_main img{
+    width: 90%;
+    height: 90%;
+}
+
+.main_O_nas{
+    width: 100%;
+    height: 200px;
+    margin-top: 50px;
+    display: flex;
+}
+.main_O_nas .card_text_o_nas:nth-child(1){
+    flex: 0.7;
+}
+.card_text_o_nas{
+    display: flex;
+    flex: 1;
+    padding: 5px;
+}
+
+.text_card p{
+    color: #414141;
+    margin-top: 5px;
+    margin-left: 5px;
+    margin-bottom: 20px;
+}
+.card_text_o_nas:nth-child(1) .text_card p{
+    color: #414141;
+    width: 200px;
+}
+.text_card h1{
+    color: #414141;
+}
+.foot_o_nes{
+    margin-top: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    margin-bottom: 60px;
+}
+.sms{
+    background: url(./image/sms.png);
+    width: 800px;
+    height: 80px;
+    background-size: cover;
+    color: #70C05B;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}

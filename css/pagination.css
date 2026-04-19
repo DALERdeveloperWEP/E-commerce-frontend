@@ -1,0 +1,61 @@
+
+.koproq-korish {
+  margin: 50px 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.box-korish {
+  width: 730px;
+  height: 70px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  color: #606060;
+}
+.box-korish > a {
+  border-radius: 6px;
+  background-color: #f3f2f1;
+  width: 150px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.box-korish > ul {
+  width: 100%;
+  gap: 15px;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.box-korish ul li button {
+  background: none;
+  border: none;
+  color: inherit;
+  font-family: inherit;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: inherit;
+}
+.box-korish ul li button:hover {
+  color: #ff6633;
+}
+.box-korish ul li button p {
+  font-size: 24px;
+  width: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 5px;
+}
+.box-korish ul li button i {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 6px;
+  font-size: 30px;
+}

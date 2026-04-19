@@ -1,0 +1,177 @@
+/* ─── Redesigned Profile Dropdown ──────────────────────────────────────────── */
+.Logo_card {
+    position: relative;
+}
+
+.seller_dropdown {
+    position: absolute;
+    top: calc(100% + 12px);
+    right: 0;
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.13), 0 2px 8px rgba(0,0,0,0.06);
+    min-width: 260px;
+    z-index: 9999;
+    overflow: hidden;
+    animation: ddFadeIn 0.2s cubic-bezier(.4,0,.2,1);
+    border: 1px solid #f0ede9;
+}
+
+@keyframes ddFadeIn {
+    from { opacity: 0; transform: translateY(-6px) scale(0.98); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Header section */
+.dd-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 18px 14px;
+    background: linear-gradient(135deg, #f4f4f2 0%, #fff 100%);
+    position: relative;
+}
+
+.dd-avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+    border: 2px solid #fff;
+    box-shadow: 0 2px 8px rgba(112, 192, 91, 0.25);
+}
+
+.dd-avatar-initials {
+    background: linear-gradient(135deg, #70C05B, #008C49);
+    color: #fff;
+    font-size: 18px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: system-ui, sans-serif;
+}
+
+.dd-user-info {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.dd-user-name {
+    font-family: system-ui, -apple-system, sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: #232323;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.dd-user-email {
+    font-family: system-ui, sans-serif;
+    font-size: 12px;
+    color: #8F8F8F;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.dd-role-badge {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-family: system-ui, sans-serif;
+    flex-shrink: 0;
+}
+
+.dd-role-admin {
+    background: #fff0eb;
+    color: #FF6633;
+    border: 1px solid #ffd5c7;
+}
+
+.dd-role-seller {
+    background: #edf7ea;
+    color: #008C49;
+    border: 1px solid #c5e8b9;
+}
+
+.dd-role-user,
+.dd-role-customer {
+    background: #f0f5ff;
+    color: #606060;
+    border: 1px solid #d0daf5;
+}
+
+/* Divider */
+.dd-divider {
+    height: 1px;
+    background: #f0ede9;
+    margin: 0;
+}
+
+/* Nav items */
+.dd-nav {
+    padding: 6px 0;
+}
+
+.dd-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 18px;
+    color: #414141;
+    font-size: 14px;
+    font-family: system-ui, sans-serif;
+    text-decoration: none;
+    transition: background 0.15s, color 0.15s;
+    background: none;
+    border: none;
+    width: 100%;
+    cursor: pointer;
+    text-align: left;
+    border-left: 3px solid transparent;
+}
+
+.dd-item:hover {
+    background: #f8f6f3;
+    color: #FF6633;
+    border-left-color: #FF6633;
+}
+
+.dd-item-icon {
+    font-size: 18px;
+    color: #70C05B;
+    flex-shrink: 0;
+    transition: color 0.15s;
+}
+
+.dd-item:hover .dd-item-icon {
+    color: #FF6633;
+}
+
+/* Logout */
+.dd-logout {
+    margin: 6px 0;
+}
+
+.dd-logout:hover {
+    background: #fff5f2;
+    color: #D80000;
+    border-left-color: #D80000;
+}
+
+.dd-logout-icon {
+    color: #BFBFBF;
+}
+
+.dd-logout:hover .dd-logout-icon {
+    color: #D80000;
+}

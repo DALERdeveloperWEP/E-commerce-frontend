@@ -1,0 +1,63 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+
+
+button {
+  transition: 0.2s ease;
+}
+main {
+  width: 100%;
+  height: auto;
+  background-color: #fbf8ec;
+}
+.ortasi {
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+}
+.head_menyu {
+  width: 100%;
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  padding: 5px;
+}
+
+.head_menyu a {
+  width: 130px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: #606060;
+  font-size: 16px;
+}
+.head_menyu h1 {
+  font-family: "Winky Sans", sans-serif;
+  font-weight: 700;
+  color: #414141;
+}
+
+.card_shop {
+  margin-top: 30px;
+  /* width: 100%; */
+  height: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  /* grid-template-columns: repeat( 4, 1fr ); */
+  gap: 25px;
+  padding: 10px;
+}
+
+svg {
+  width: 100%;
+}
+

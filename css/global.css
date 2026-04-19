@@ -1,0 +1,114 @@
+body {
+  margin: 0;
+  line-height: normal;
+}
+
+:root {
+  /* Common Style Variables */
+
+  /* Color */
+  ---surface: #fff;
+  --color-black: #000;
+  --color-oldlace: #f9f4e2;
+  --Grayscale-Hard: #8f8f8f;
+  --Grayscale-Hardest: #606060;
+  --Grayscale-Light: #bfbfbf;
+  --Grayscale-Lightest: #f3f2f1;
+  --Main-BGPage: #fbf8ec;
+  --Main-onPrimary: #fff;
+  --Main-onSecondary: #fff;
+  --Main-onSurface: #414141;
+  --Main-Primary: #ff6633;
+  --Main-Secondary: #70c05b;
+  --Main-Surface: #fff;
+  --onSurface: #232323;
+
+  /* Gap */
+  --gap-4: 4px;
+  --gap-8: 8px;
+  --gap-10: 10px;
+  --gap-16: 16px;
+  --gap-20: 20px;
+  --gap-24: 24px;
+  --gap-30: 30px;
+  --gap-32: 32px;
+  --gap-40: 40px;
+  --gap-60: 60px;
+
+  /* Padding */
+  --padding-0: 0px;
+  --padding-01: 0;
+  --padding-4: 4px;
+  --padding-8: 8px;
+  --padding-10: 10px;
+  --padding-16: 16px;
+  --padding-20: 20px;
+  --padding-23: 23px;
+  --padding-32: 32px;
+  --padding-80: 80px;
+
+  /* BorderRadius */
+  --br-1: 1px;
+  --br-4: 4px;
+
+  /* Font */
+  --font-roboto: Roboto;
+  --font-rubik: Rubik;
+
+  /* FontSize */
+  --fs-12: 12px;
+  --fs-16: 16px;
+  --fs-18: 18px;
+  --fs-19: 19px;
+  --fs-22: 22px;
+  --fs-24: 24px;
+  --fs-29: 29px;
+  --fs-36: 36px;
+
+  /* Borders */
+  --border-1: 1px solid var(--Main-Secondary);
+
+  /* Shadows */
+  --Default-S: 2px 4px 8px rgba(0, 0, 0, 0.1);
+  --Default-XS: 1px 2px 4px rgba(0, 0, 0, 0.1);
+  --Primary-M: 4px 8px 16px rgba(255, 102, 51, 0.2);
+  --Secondary-XS: 1px 2px 4px rgba(112, 192, 91, 0.2);
+
+  /* Gradients */
+  --gradient-1: linear-gradient(180deg, rgba(111, 192, 91, 0), #6fc05b 82.81%);
+
+  /* WidthHeights */
+  --height-10: 10px;
+  --height-16: 16px;
+  --height-24: 24px;
+  --height-32: 32px;
+  --height-40: 40px;
+  --height-72: 72px;
+  --height-124: 124px;
+  --height-126: 126px;
+  --height-140: 140px;
+  --height-160: 160px;
+  --width-16: 16px;
+  --width-24: 24px;
+  --width-32: 32px;
+  --width-40: 40px;
+  --width-64: 64px;
+  --width-100: 100px;
+  --width-124: 124px;
+  --width-126: 126px;
+  --width-224: 224px;
+  --width-584: 584px;
+  --width-1208: 1208px;
+
+  /* LineHeights */
+  --lh-32: 32px;
+  --lh-43: 43px;
+
+  /* Opacities */
+  --opacity-0_5: 0.5;
+
+  --left-0: 0px;
+  --left-10: 10px;
+  --top-0: 0px;
+  --top-8: 8px;
+}

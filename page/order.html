@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Buyurtmalarim — ShopUz</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/header.css" />
+  <link rel="stylesheet" href="../css/responsive.css" />
+  <link href="https://cdn.boxicons.com/fonts/basic/boxicons.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=package_2"/>
+  <script src="https://kit.fontawesome.com/dfead5f7ee.js" crossorigin="anonymous"></script>
+  <script src="../js/header.js"></script>
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ['Syne', 'sans-serif'],
+            body: ['DM Sans', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50:  '#fff7ed',
+              100: '#ffedd5',
+              200: '#fed7aa',
+              400: '#fb923c',
+              500: '#f97316',
+              600: '#ea580c',
+              700: '#c2410c',
+              900: '#7c2d12',
+            },
+            ink: {
+              50:  '#f8f7f4',
+              100: '#efede8',
+              200: '#ddd9d0',
+              500: '#8a8278',
+              700: '#3d3830',
+              900: '#1a1714',
+            }
+          },
+          boxShadow: {
+            card: '0 2px 12px 0 rgba(26,23,20,0.07)',
+            cardHover: '0 8px 32px 0 rgba(26,23,20,0.13)',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    * { box-sizing: border-box; }
+    body { font-family: 'DM Sans', sans-serif; background: #f8f7f4; color: #1a1714; }
+    h1, h2, h3, h4, .font-display { font-family: 'Syne', sans-serif; }
+
+    /* Status badges */
+    .badge-pending    { background: #fef9c3; color: #854d0e; border: 1px solid #fde047; }
+    .badge-confirmed  { background: #dbeafe; color: #1e40af; border: 1px solid #93c5fd; }
+    .badge-delivered  { background: #dcfce7; color: #166534; border: 1px solid #86efac; }
+    .badge-cancelled  { background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; }
+
+    /* Timeline */
+    .timeline-step.active .step-dot  { background: #f97316; border-color: #f97316; }
+    .timeline-step.active .step-label { color: #f97316; font-weight: 600; }
+    .timeline-step.done   .step-dot  { background: #22c55e; border-color: #22c55e; }
+    .timeline-step.done   .step-label { color: #166534; }
+    .timeline-step.idle   .step-dot  { background: #efede8; border-color: #ddd9d0; }
+    .timeline-step.idle   .step-label { color: #8a8278; }
+
+    /* Animations */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up { animation: fadeUp 0.45s ease both; }
+    .fade-up-1 { animation-delay: 0.05s; }
+    .fade-up-2 { animation-delay: 0.12s; }
+    .fade-up-3 { animation-delay: 0.20s; }
+    .fade-up-4 { animation-delay: 0.28s; }
+
+    /* Order card hover */
+    .order-card { transition: box-shadow 0.2s, transform 0.2s; }
+    .order-card:hover { box-shadow: 0 8px 32px 0 rgba(26,23,20,0.13); transform: translateY(-2px); }
+
+    /* Tab underline */
+    .tab-btn { position: relative; padding-bottom: 10px; transition: color 0.2s; }
+    .tab-btn::after { content:''; position: absolute; left: 0; bottom: 0; height: 2px; width: 0; background: #f97316; border-radius: 2px; transition: width 0.25s; }
+    .tab-btn.active { color: #f97316; }
+    .tab-btn.active::after { width: 100%; }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #efede8; }
+    ::-webkit-scrollbar-thumb { background: #ddd9d0; border-radius: 3px; }
+
+    /* Progress bar */
+    .progress-bar { height: 4px; background: #efede8; border-radius: 99px; overflow: hidden; }
+    .progress-fill { height: 100%; background: linear-gradient(90deg, #f97316, #ea580c); border-radius: 99px; transition: width 0.5s ease; }
+  </style>
+</head>
+<body class="min-h-screen">
+
+  <!-- ════════════════════════════════ NAVBAR ════════════════════════════════ -->
+  <header>
+      <div class="contianer head">
+        <div class="logoText_card">
+          <div class="img_logo">
+            <a href="index.html">
+              <svg
+                class="svg_header"
+                width="40"
+                height="32"
+                viewBox="0 0 40 32"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M35.6689 16.819H4.28623C3.62872 16.819 3.09179 17.3764 3.15209 18.0343C3.84119 25.8488 11.1112 31.9999 19.9776 31.9999C28.844 31.9999 36.1139 25.8517 36.803 18.0343C36.8605 17.3764 36.3264 16.819 35.6689 16.819Z"
+                  fill="#FF6633"
+                />
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M0.225147 3.33137C1.7887 1.27854 4.60645 0 7.711 0C10.8155 0 13.6333 1.27854 15.1969 3.33137C15.5659 3.81589 15.4714 4.50716 14.9858 4.87537C14.5001 5.24357 13.8073 5.14928 13.4383 4.66476C12.3661 3.25707 10.2569 2.20377 7.711 2.20377C5.16509 2.20377 3.05591 3.25707 1.98374 4.66476C1.6147 5.14928 0.921857 5.24357 0.436236 4.87537C-0.0493858 4.50716 -0.143894 3.81589 0.225147 3.33137Z"
+                  fill="#414141"
+                />
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M24.7671 3.33137C26.3307 1.27854 29.1484 0 32.253 0C35.3552 0 38.1721 1.27884 39.7381 3.33045C40.1077 3.81458 40.0139 4.50596 39.5287 4.87467C39.0434 5.24338 38.3505 5.14981 37.981 4.66568C36.9055 3.25676 34.7955 2.20377 32.253 2.20377C29.7071 2.20377 27.5979 3.25707 26.5257 4.66476C26.1567 5.14928 25.4638 5.24357 24.9782 4.87537C24.4926 4.50716 24.3981 3.81589 24.7671 3.33137Z"
+                  fill="#414141"
+                />
+              </svg>
+            </a>
+          </div>
+
+          <div class="text_logo">
+            <a href="index.html"><h2>Северяночка</h2></a>
+          </div>
+        </div>
+
+        <button class="menyu_card">
+          <div class="svg_menyu">
+            <i class="bxr bx-menu-wide"></i>
+          </div>
+
+          <h3>Каталог</h3>
+        </button>
+
+        <div class="search_card">
+          <label for="search" class="qiduruv">
+            <input
+              type="text"
+              title="search"
+              class="input_search"
+              placeholder="Найти товар"
+            />
+
+            <div class="lupa">
+              <a href=""
+                ><i class="bxr bx-search-big" style="font-size: 24px"></i
+              ></a>
+            </div>
+          </label>
+        </div>
+
+        <div class="button_card">
+          <a class="card katalog" href="./Категория.html">
+            <i class="bxr bx-menu-wide"></i>
+            <p>Каталог</p>
+          </a>
+
+          <a href="./Избраное.html" class="card">
+            <i class="bxr bx-heart bx-flip"> </i>
+            <p>Избранное</p>
+          </a>
+
+          <a href="./product.html" class="card">
+            <i class="bxr bx-box-alt"></i>
+            <p>продукты</p>
+          </a>
+
+          <a href="./korzinka.html" class="card">
+            <p class="counter_heder">1</p>
+            <i class="bxr bx-cart" style="font-size: 28px"></i>
+            <p href="./korzinka.html">Корзина</p>
+          </a>
+
+          <a class="card img_header" href="./login.html">
+            <img
+              src="./images/header_img/73a72afa3b3294ff7bb2f45d2d03ac0d0fee5e5f.png"
+              alt=""
+            />
+          </a>
+        </div>
+
+        <div class="Logo_card">
+          <div class="menyu_logo">
+            <a href="./login.html"
+              ><img
+                src="../images/header_img/73a72afa3b3294ff7bb2f45d2d03ac0d0fee5e5f.png"
+                alt=""
+            /></a>
+
+            <a href="./login.html"><h4>Алексей</h4></a>
+          </div>
+
+          <button class="btn_sign_sat_profil" id="profileDropdownBtn">
+            <i
+              class="bxr bx-chevron-down"
+              style="color: #baa9b0; font-size: 27px"
+            >
+            </i>
+          </button>
+
+          <!-- Seller dropdown menu -->
+          <div class="seller_dropdown" id="sellerDropdown">
+            <a href="../admin-page/admin-home.html" class="seller_menu_item">
+              <i class="bxr bx-store"></i>
+              <span>Mahsulotlarni Boshqarish</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+  <!-- ════════════════════════════════ MAIN ════════════════════════════════ -->
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 py-8">
+
+    <!-- Page header -->
+    <div class="fade-up fade-up-1 mb-7">
+      <h1 class="font-display text-2xl sm:text-3xl font-700 text-ink-900 mb-1">Mening buyurtmalarim</h1>
+      <p class="text-sm text-ink-500">Barcha buyurtmalaringiz va ularning holati</p>
+    </div>
+
+    <!-- ──────────── TABS ──────────── -->
+    <div class="fade-up fade-up-1 flex gap-6 border-b border-ink-100 mb-6 overflow-x-auto pb-px">
+      <button onclick="filterOrders('all')"       id="tab-all"       class="tab-btn active whitespace-nowrap text-sm font-medium text-ink-700">Barchasi <span class="ml-1 text-xs bg-ink-100 text-ink-500 rounded-full px-2 py-0.5">4</span></button>
+      <button onclick="filterOrders('pending')"   id="tab-pending"   class="tab-btn whitespace-nowrap text-sm font-medium text-ink-700">Kutilmoqda</button>
+      <button onclick="filterOrders('confirmed')" id="tab-confirmed" class="tab-btn whitespace-nowrap text-sm font-medium text-ink-700">Tasdiqlangan</button>
+      <button onclick="filterOrders('delivered')" id="tab-delivered" class="tab-btn whitespace-nowrap text-sm font-medium text-ink-700">Yetkazilgan</button>
+      <button onclick="filterOrders('cancelled')" id="tab-cancelled" class="tab-btn whitespace-nowrap text-sm font-medium text-ink-700">Bekor qilingan</button>
+    </div>
+
+    <!-- ──────────── ORDER CARDS LIST ──────────── -->
+    <div id="orders-list" class="fade-up fade-up-2 flex flex-col gap-4">
+
+      <!-- ORDER #1 — pending -->
+      <div class="order-card bg-white rounded-2xl shadow-card overflow-hidden" data-status="pending">
+        <div class="p-5 sm:p-6">
+          <div class="flex flex-col sm:flex-row sm:items-start gap-4">
+            <!-- Left: thumbnail stack -->
+            <div class="flex -space-x-3 flex-shrink-0">
+              <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=80&h=80&fit=crop" class="w-14 h-14 rounded-xl border-2 border-white object-cover shadow-sm" alt="">
+              <img src="https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=80&h=80&fit=crop" class="w-14 h-14 rounded-xl border-2 border-white object-cover shadow-sm" alt="">
+              <div class="w-14 h-14 rounded-xl border-2 border-white bg-ink-100 flex items-center justify-center text-xs font-bold text-ink-500 shadow-sm">+1</div>
+            </div>
+            <!-- Middle: info -->
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center gap-2 mb-1 flex-wrap">
+                <span class="font-display font-700 text-ink-900 text-base">#ORD-00124</span>
+                <span class="badge-pending text-xs font-semibold px-2.5 py-0.5 rounded-full">⏳ Kutilmoqda</span>
+              </div>
+              <p class="text-sm text-ink-500 mb-2">17 aprel 2026 · 3 mahsulot</p>
+              <div class="text-xs text-ink-500 flex items-center gap-1">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                Toshkent sh., Chilonzor tumani, 12-uy, 45-xonadon
+              </div>
+            </div>
+            <!-- Right: price + action -->
+            <div class="flex sm:flex-col items-center sm:items-end justify-between sm:justify-start gap-3 flex-shrink-0">
+              <div class="text-right">
+                <div class="font-display font-700 text-lg text-ink-900">850 000 so'm</div>
+                <div class="text-xs text-ink-500">Jami narx</div>
+              </div>
+              <button onclick="openModal('modal-pending')" class="bg-brand-500 hover:bg-brand-600 text-white text-xs font-semibold px-4 py-2 rounded-lg transition-colors whitespace-nowrap">
+                Batafsil →
+              </button>
+            </div>
+          </div>
+          <!-- Progress bar for pending -->
+          <div class="mt-4">
+            <div class="progress-bar"><div class="progress-fill" style="width:25%"></div></div>
+            <div class="flex justify-between text-[11px] text-ink-400 mt-1.5">
+              <span class="font-semibold text-brand-600">Tasdiqlash kutilmoqda</span>
+              <span>25%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ORDER #2 — confirmed -->
+      <div class="order-card bg-white rounded-2xl shadow-card overflow-hidden" data-status="confirmed">
+        <div class="p-5 sm:p-6">
+          <div class="flex flex-col sm:flex-row sm:items-start gap-4">
+            <div class="flex -space-x-3 flex-shrink-0">
+              <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=80&h=80&fit=crop" class="w-14 h-14 rounded-xl border-2 border-white object-cover shadow-sm" alt="">
+              <img src="https://images.unsplash.com/photo-1491553895911-0055eca6402d?w=80&h=80&fit=crop" class="w-14 h-14 rounded-xl border-2 border-white object-cover shadow-sm" alt="">
+            </div>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center gap-2 mb-1 flex-wrap">
+                <span class="font-display font-700 text-ink-900 text-base">#ORD-00119</span>
+                <span class="badge-confirmed text-xs font-semibold px-2.5 py-0.5 rounded-full">✅ Tasdiqlangan</span>
+              </div>
+              <p class="text-sm text-ink-500 mb-2">15 aprel 2026 · 2 mahsulot</p>
+              <div class="text-xs text-ink-500 flex items-center gap-1">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                Toshkent sh., Yunusobod tumani, 7-uy, 12-xonadon
+              </div>
+            </div>
+            <div class="flex sm:flex-col items-center sm:items-end justify-between sm:justify-start gap-3 flex-shrink-0">
+              <div class="text-right">
+                <div class="font-display font-700 text-lg text-ink-900">1 200 000 so'm</div>
+                <div class="text-xs text-ink-500">Jami narx</div>
+              </div>
+              <button onclick="openModal('modal-confirmed')" class="bg-brand-500 hover:bg-brand-600 text-white text-xs font-semibold px-4 py-2 rounded-lg transition-colors whitespace-nowrap">
+                Batafsil →
+              </button>
+            </div>
+          </div>
+          <div class="mt-4">
+            <div class="progress-bar"><div class="progress-fill" style="width:60%"></div></div>
+            <div class="flex justify-between text-[11px] text-ink-400 mt-1.5">
+              <span class="font-semibold text-blue-600">Yetkazib berilmoqda</span>
+              <span>60%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ORDER #3 — delivered -->
+      <div class="order-card bg-white rounded-2xl shadow-card overflow-hidden" data-status="delivered">
+        <div class="p-5 sm:p-6">
+          <div class="flex flex-col sm:flex-row sm:items-start gap-4">
+            <div class="flex -space-x-3 flex-shrink-0">
+              <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=80&h=80&fit=crop" class="w-14 h-14 rounded-xl border-2 border-white object-cover shadow-sm" alt="">
+            </div>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center gap-2 mb-1 flex-wrap">
+                <span class="font-display font-700 text-ink-900 text-base">#ORD-00105</span>
+                <span class="badge-delivered text-xs font-semibold px-2.5 py-0.5 rounded-full">🎉 Yetkazilgan</span>
+              </div>
+              <p class="text-sm text-ink-500 mb-2">8 aprel 2026 · 1 mahsulot</p>
+              <div class="text-xs text-ink-500 flex items-center gap-1">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                Toshkent sh., Mirzo Ulug'bek tumani, 3-uy, 2-xonadon
+              </div>
+            </div>
+            <div class="flex sm:flex-col items-center sm:items-end justify-between sm:justify-start gap-3 flex-shrink-0">
+              <div class="text-right">
+                <div class="font-display font-700 text-lg text-ink-900">320 000 so'm</div>
+                <div class="text-xs text-ink-500">Jami narx</div>
+              </div>
+              <button onclick="openModal('modal-delivered')" class="bg-brand-500 hover:bg-brand-600 text-white text-xs font-semibold px-4 py-2 rounded-lg transition-colors whitespace-nowrap">
+                Batafsil →
+              </button>
+            </div>
+          </div>
+          <div class="mt-4">
+            <div class="progress-bar"><div class="progress-fill" style="width:100%; background: linear-gradient(90deg,#22c55e,#16a34a)"></div></div>
+            <div class="flex justify-between text-[11px] text-ink-400 mt-1.5">
+              <span class="font-semibold text-green-600">Muvaffaqiyatli yetkazildi</span>
+              <span>100%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ORDER #4 — cancelled -->
+      <div class="order-card bg-white rounded-2xl shadow-card overflow-hidden opacity-75" data-status="cancelled">
+        <div class="p-5 sm:p-6">
+          <div class="flex flex-col sm:flex-row sm:items-start gap-4">
+            <div class="flex -space-x-3 flex-shrink-0">
+              <img src="https://images.unsplash.com/photo-1560343090-f0409e92791a?w=80&h=80&fit=crop&grayscale" class="w-14 h-14 rounded-xl border-2 border-white object-cover shadow-sm grayscale" alt="">
+              <img src="https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=80&h=80&fit=crop&grayscale" class="w-14 h-14 rounded-xl border-2 border-white object-cover shadow-sm grayscale" alt="">
+            </div>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center gap-2 mb-1 flex-wrap">
+                <span class="font-display font-700 text-ink-900 text-base">#ORD-00098</span>
+                <span class="badge-cancelled text-xs font-semibold px-2.5 py-0.5 rounded-full">✗ Bekor qilingan</span>
+              </div>
+              <p class="text-sm text-ink-500 mb-2">2 aprel 2026 · 2 mahsulot</p>
+              <div class="text-xs text-red-400 flex items-center gap-1">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                Siz tomonidan bekor qilindi
+              </div>
+            </div>
+            <div class="flex sm:flex-col items-center sm:items-end justify-between sm:justify-start gap-3 flex-shrink-0">
+              <div class="text-right">
+                <div class="font-display font-700 text-lg text-ink-400 line-through">640 000 so'm</div>
+                <div class="text-xs text-ink-400">Bekor qilingan</div>
+              </div>
+              <button onclick="openModal('modal-cancelled')" class="bg-ink-100 hover:bg-ink-200 text-ink-600 text-xs font-semibold px-4 py-2 rounded-lg transition-colors whitespace-nowrap">
+                Ko'rish →
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /orders-list -->
+
+    <!-- Empty state (hidden by default) -->
+    <div id="empty-state" class="hidden flex flex-col items-center justify-center py-20 text-center">
+      <div class="w-20 h-20 rounded-full bg-ink-100 flex items-center justify-center mb-4">
+        <svg class="w-9 h-9 text-ink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+      </div>
+      <h3 class="font-display font-700 text-lg text-ink-900 mb-2">Bu toifada buyurtma yo'q</h3>
+      <p class="text-sm text-ink-500">Boshqa toifalarni ko'rib chiqing yoki yangi xarid qiling.</p>
+      <a href="#" class="mt-5 bg-brand-500 hover:bg-brand-600 text-white text-sm font-semibold px-6 py-2.5 rounded-xl transition-colors">Xarid qilish →</a>
+    </div>
+
+  </main>
+
+
+  <!-- ════════════════════════════════════════════════════════════════
+       MODALS — ORDER DETAIL
+  ════════════════════════════════════════════════════════════════ -->
+
+  <!-- Overlay -->
+  <div id="modal-overlay" onclick="closeModal()" class="hidden fixed inset-0 bg-ink-900/40 backdrop-blur-sm z-40"></div>
+
+  <!-- ── MODAL: PENDING ── -->
+  <div id="modal-pending" class="hidden fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
+    <div class="bg-white w-full sm:max-w-xl sm:rounded-3xl rounded-t-3xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col">
+      <!-- Header -->
+      <div class="flex items-center justify-between px-6 py-5 border-b border-ink-100 flex-shrink-0">
+        <div>
+          <div class="flex items-center gap-2 flex-wrap">
+            <h2 class="font-display font-700 text-xl text-ink-900">#ORD-00124</h2>
+            <span class="badge-pending text-xs font-semibold px-2.5 py-0.5 rounded-full">⏳ Kutilmoqda</span>
+          </div>
+          <p class="text-xs text-ink-500 mt-0.5">17 aprel 2026, soat 14:32</p>
+        </div>
+        <button onclick="closeModal()" class="w-9 h-9 rounded-full bg-ink-100 hover:bg-ink-200 flex items-center justify-center transition-colors flex-shrink-0">
+          <svg class="w-4 h-4 text-ink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <!-- Scrollable body -->
+      <div class="overflow-y-auto flex-1 px-6 py-5 space-y-6">
+
+        <!-- Timeline -->
+        <div>
+          <h3 class="font-display font-600 text-sm text-ink-700 mb-4 uppercase tracking-wide">Buyurtma holati</h3>
+          <div class="relative">
+            <div class="absolute left-[18px] top-0 bottom-0 w-0.5 bg-ink-100"></div>
+            <div class="space-y-5">
+              <div class="timeline-step done flex items-start gap-4">
+                <div class="step-dot w-9 h-9 rounded-full border-2 bg-green-500 border-green-500 flex items-center justify-center flex-shrink-0 z-10 shadow-sm">
+                  <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                </div>
+                <div class="pt-1.5">
+                  <div class="step-label text-sm font-600 text-green-700">Buyurtma qabul qilindi</div>
+                  <div class="text-xs text-ink-500 mt-0.5">17 aprel 2026 · 14:32</div>
+                </div>
+              </div>
+              <div class="timeline-step active flex items-start gap-4">
+                <div class="step-dot w-9 h-9 rounded-full border-2 bg-brand-500 border-brand-500 flex items-center justify-center flex-shrink-0 z-10 shadow-sm animate-pulse">
+                  <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                </div>
+                <div class="pt-1.5">
+                  <div class="step-label text-sm">Operator ko'rib chiqmoqda</div>
+                  <div class="text-xs text-ink-500 mt-0.5">Tez orada tasdiqlash kutilmoqda</div>
+                </div>
+              </div>
+              <div class="timeline-step idle flex items-start gap-4">
+                <div class="step-dot w-9 h-9 rounded-full border-2 flex items-center justify-center flex-shrink-0 z-10">
+                  <svg class="w-4 h-4 text-ink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8l1 12a2 2 0 002 2h8a2 2 0 002-2L18 8"/></svg>
+                </div>
+                <div class="pt-1.5">
+                  <div class="step-label text-sm">Yetkazib berish</div>
+                  <div class="text-xs text-ink-500 mt-0.5">Taxminiy: 18–20 aprel 2026</div>
+                </div>
+              </div>
+              <div class="timeline-step idle flex items-start gap-4">
+                <div class="step-dot w-9 h-9 rounded-full border-2 flex items-center justify-center flex-shrink-0 z-10">
+                  <svg class="w-4 h-4 text-ink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                </div>
+                <div class="pt-1.5">
+                  <div class="step-label text-sm">Qabul qilindi</div>
+                  <div class="text-xs text-ink-500 mt-0.5">—</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Products -->
+        <div>
+          <h3 class="font-display font-600 text-sm text-ink-700 mb-3 uppercase tracking-wide">Mahsulotlar (3 ta)</h3>
+          <div class="space-y-3">
+            <div class="flex items-center gap-3 bg-ink-50 rounded-xl p-3">
+              <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=60&h=60&fit=crop" class="w-12 h-12 rounded-lg object-cover flex-shrink-0" alt="">
+              <div class="flex-1 min-w-0">
+                <div class="text-sm font-semibold text-ink-900 truncate">Premium Soat — Gold Edition</div>
+                <div class="text-xs text-ink-500 mt-0.5">1 dona × 450 000 so'm</div>
+              </div>
+              <div class="text-sm font-700 text-ink-900 flex-shrink-0">450 000 so'm</div>
+            </div>
+            <div class="flex items-center gap-3 bg-ink-50 rounded-xl p-3">
+              <img src="https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=60&h=60&fit=crop" class="w-12 h-12 rounded-lg object-cover flex-shrink-0" alt="">
+              <div class="flex-1 min-w-0">
+                <div class="text-sm font-semibold text-ink-900 truncate">Erkaklar atiri — Black Night</div>
+                <div class="text-xs text-ink-500 mt-0.5">2 dona × 150 000 so'm</div>
+              </div>
+              <div class="text-sm font-700 text-ink-900 flex-shrink-0">300 000 so'm</div>
+            </div>
+            <div class="flex items-center gap-3 bg-ink-50 rounded-xl p-3">
+              <img src="https://images.unsplash.com/photo-1491553895911-0055eca6402d?w=60&h=60&fit=crop" class="w-12 h-12 rounded-lg object-cover flex-shrink-0" alt="">
+              <div class="flex-1 min-w-0">
+                <div class="text-sm font-semibold text-ink-900 truncate">Sport krossovka — Air Max</div>
+                <div class="text-xs text-ink-500 mt-0.5">1 dona × 100 000 so'm</div>
+              </div>
+              <div class="text-sm font-700 text-ink-900 flex-shrink-0">100 000 so'm</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Delivery info -->
+        <div>
+          <h3 class="font-display font-600 text-sm text-ink-700 mb-3 uppercase tracking-wide">Yetkazib berish ma'lumotlari</h3>
+          <div class="bg-ink-50 rounded-xl p-4 space-y-2.5 text-sm">
+            <div class="flex gap-3">
+              <span class="text-ink-400 w-28 flex-shrink-0">To'liq ism</span>
+              <span class="font-medium text-ink-900">Azizbek Karimov</span>
+            </div>
+            <div class="flex gap-3">
+              <span class="text-ink-400 w-28 flex-shrink-0">Telefon</span>
+              <span class="font-medium text-ink-900">+998 90 123 45 67</span>
+            </div>
+            <div class="flex gap-3">
+              <span class="text-ink-400 w-28 flex-shrink-0">Manzil</span>
+              <span class="font-medium text-ink-900">Toshkent sh., Chilonzor</span>
+            </div>
+            <div class="flex gap-3">
+              <span class="text-ink-400 w-28 flex-shrink-0">Uy / xonadon</span>
+              <span class="font-medium text-ink-900">12-uy, 45-xonadon</span>
+            </div>
+            <div class="flex gap-3">
+              <span class="text-ink-400 w-28 flex-shrink-0">Izoh</span>
+              <span class="font-medium text-ink-900 italic">Eshik oldida qoldiring</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Total -->
+        <div class="bg-brand-50 border border-brand-200 rounded-xl p-4">
+          <div class="flex justify-between items-center">
+            <div>
+              <div class="text-sm text-ink-600">Jami to'lov summasi</div>
+              <div class="font-display font-800 text-2xl text-brand-600 mt-0.5">850 000 so'm</div>
+            </div>
+            <div class="text-right">
+              <div class="text-xs text-ink-500">To'lov usuli</div>
+              <div class="text-sm font-semibold text-ink-800 mt-0.5">Naqd pul</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <!-- Footer -->
+      <div class="px-6 py-4 border-t border-ink-100 bg-ink-50 flex-shrink-0">
+        <button class="w-full bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 text-sm font-semibold py-2.5 rounded-xl transition-colors">
+          Buyurtmani bekor qilish
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── MODAL: CONFIRMED ── -->
+  <div id="modal-confirmed" class="hidden fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
+    <div class="bg-white w-full sm:max-w-xl sm:rounded-3xl rounded-t-3xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col">
+      <div class="flex items-center justify-between px-6 py-5 border-b border-ink-100 flex-shrink-0">
+        <div>
+          <div class="flex items-center gap-2 flex-wrap">
+            <h2 class="font-display font-700 text-xl text-ink-900">#ORD-00119</h2>
+            <span class="badge-confirmed text-xs font-semibold px-2.5 py-0.5 rounded-full">✅ Tasdiqlangan</span>
+          </div>
+          <p class="text-xs text-ink-500 mt-0.5">15 aprel 2026, soat 09:15</p>
+        </div>
+        <button onclick="closeModal()" class="w-9 h-9 rounded-full bg-ink-100 hover:bg-ink-200 flex items-center justify-center transition-colors flex-shrink-0">
+          <svg class="w-4 h-4 text-ink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div class="overflow-y-auto flex-1 px-6 py-5 space-y-6">
+        <!-- Timeline confirmed -->
+        <div>
+          <h3 class="font-display font-600 text-sm text-ink-700 mb-4 uppercase tracking-wide">Buyurtma holati</h3>
+          <div class="relative">
+            <div class="absolute left-[18px] top-0 bottom-0 w-0.5 bg-ink-100"></div>
+            <div class="space-y-5">
+              <div class="timeline-step done flex items-start gap-4">
+                <div class="step-dot w-9 h-9 rounded-full border-2 bg-green-500 border-green-500 flex items-center justify-center flex-shrink-0 z-10 shadow-sm">
+                  <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                </div>
+                <div class="pt-1.5"><div class="step-label text-sm font-600 text-green-700">Buyurtma qabul qilindi</div><div class="text-xs text-ink-500 mt-0.5">15 aprel · 09:15</div></div>
+              </div>
+              <div class="timeline-step done flex items-start gap-4">
+                <div class="step-dot w-9 h-9 rounded-full border-2 bg-green-500 border-green-500 flex items-center justify-center flex-shrink-0 z-10 shadow-sm">
+                  <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                </div>
+                <div class="pt-1.5"><div class="step-label text-sm font-600 text-green-700">Tasdiqlandi</div><div class="text-xs text-ink-500 mt-0.5">15 aprel · 10:44</div></div>
+              </div>
+              <div class="timeline-step active flex items-start gap-4">
+                <div class="step-dot w-9 h-9 rounded-full border-2 bg-brand-500 border-brand-500 flex items-center justify-center flex-shrink-0 z-10 shadow-sm animate-pulse">
+                  <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                </div>
+                <div class="pt-1.5"><div class="step-label text-sm">Yetkazib berilmoqda</div><div class="text-xs text-ink-500 mt-0.5">Taxminiy: 17–18 aprel 2026</div></div>
+              </div>
+              <div class="timeline-step idle flex items-start gap-4">
+                <div class="step-dot w-9 h-9 rounded-full border-2 flex items-center justify-center flex-shrink-0 z-10">
+                  <svg class="w-4 h-4 text-ink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                </div>
+                <div class="pt-1.5"><div class="step-label text-sm">Qabul qilindi</div><div class="text-xs text-ink-500 mt-0.5">—</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Products -->
+        <div>
+          <h3 class="font-display font-600 text-sm text-ink-700 mb-3 uppercase tracking-wide">Mahsulotlar (2 ta)</h3>
+          <div class="space-y-3">
+            <div class="flex items-center gap-3 bg-ink-50 rounded-xl p-3">
+              <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=60&h=60&fit=crop" class="w-12 h-12 rounded-lg object-cover flex-shrink-0" alt="">
+              <div class="flex-1 min-w-0">
+                <div class="text-sm font-semibold text-ink-900 truncate">Nike Air — Red Flash</div>
+                <div class="text-xs text-ink-500 mt-0.5">1 dona × 800 000 so'm</div>
+              </div>
+              <div class="text-sm font-700 text-ink-900 flex-shrink-0">800 000 so'm</div>
+            </div>
+            <div class="flex items-center gap-3 bg-ink-50 rounded-xl p-3">
+              <img src="https://images.unsplash.com/photo-1491553895911-0055eca6402d?w=60&h=60&fit=crop" class="w-12 h-12 rounded-lg object-cover flex-shrink-0" alt="">
+              <div class="flex-1 min-w-0">
+                <div class="text-sm font-semibold text-ink-900 truncate">Sport qo'lqop seti</div>
+                <div class="text-xs text-ink-500 mt-0.5">2 dona × 200 000 so'm</div>
+              </div>
+              <div class="text-sm font-700 text-ink-900 flex-shrink-0">400 000 so'm</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Total -->
+        <div class="bg-blue-50 border border-blue-200 rounded-xl p-4">
+          <div class="flex justify-between items-center">
+            <div>
+              <div class="text-sm text-ink-600">Jami to'lov summasi</div>
+              <div class="font-display font-800 text-2xl text-blue-700 mt-0.5">1 200 000 so'm</div>
+            </div>
+            <div class="text-right">
+              <div class="text-xs text-ink-500">To'lov usuli</div>
+              <div class="text-sm font-semibold text-ink-800 mt-0.5">Karta orqali</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="px-6 py-4 border-t border-ink-100 bg-ink-50 flex-shrink-0">
+        <p class="text-xs text-center text-ink-500">Buyurtma yetkazib berilmoqda — bekor qilib bo'lmaydi</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── MODAL: DELIVERED ── -->
+  <div id="modal-delivered" class="hidden fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
+    <div class="bg-white w-full sm:max-w-xl sm:rounded-3xl rounded-t-3xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col">
+      <div class="flex items-center justify-between px-6 py-5 border-b border-ink-100 flex-shrink-0">
+        <div>
+          <div class="flex items-center gap-2 flex-wrap">
+            <h2 class="font-display font-700 text-xl text-ink-900">#ORD-00105</h2>
+            <span class="badge-delivered text-xs font-semibold px-2.5 py-0.5 rounded-full">🎉 Yetkazilgan</span>
+          </div>
+          <p class="text-xs text-ink-500 mt-0.5">8 aprel 2026, soat 16:00</p>
+        </div>
+        <button onclick="closeModal()" class="w-9 h-9 rounded-full bg-ink-100 hover:bg-ink-200 flex items-center justify-center transition-colors flex-shrink-0">
+          <svg class="w-4 h-4 text-ink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div class="overflow-y-auto flex-1 px-6 py-5 space-y-6">
+        <!-- Success banner -->
+        <div class="bg-green-50 border border-green-200 rounded-2xl p-5 text-center">
+          <div class="text-3xl mb-2">🎉</div>
+          <div class="font-display font-700 text-green-800 text-lg">Buyurtma muvaffaqiyatli yetkazildi!</div>
+          <p class="text-sm text-green-700 mt-1">8 aprel 2026 kuni qabul qilingan</p>
+        </div>
+
+        <!-- Products -->
+        <div>
+          <h3 class="font-display font-600 text-sm text-ink-700 mb-3 uppercase tracking-wide">Mahsulotlar (1 ta)</h3>
+          <div class="flex items-center gap-3 bg-ink-50 rounded-xl p-3">
+            <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=60&h=60&fit=crop" class="w-12 h-12 rounded-lg object-cover flex-shrink-0" alt="">
+            <div class="flex-1 min-w-0">
+              <div class="text-sm font-semibold text-ink-900 truncate">Simsiz quloqchin — Pro Max</div>
+              <div class="text-xs text-ink-500 mt-0.5">1 dona × 320 000 so'm</div>
+            </div>
+            <div class="text-sm font-700 text-ink-900 flex-shrink-0">320 000 so'm</div>
+          </div>
+        </div>
+
+        <!-- Review -->
+        <div>
+          <h3 class="font-display font-600 text-sm text-ink-700 mb-3 uppercase tracking-wide">Baho bering</h3>
+          <div class="bg-ink-50 rounded-xl p-4">
+            <p class="text-xs text-ink-500 mb-3">Mahsulot sifatini baholang</p>
+            <div class="flex gap-2 mb-3" id="stars">
+              <button onclick="setStar(1)" class="star text-3xl transition-transform hover:scale-110" data-i="1">☆</button>
+              <button onclick="setStar(2)" class="star text-3xl transition-transform hover:scale-110" data-i="2">☆</button>
+              <button onclick="setStar(3)" class="star text-3xl transition-transform hover:scale-110" data-i="3">☆</button>
+              <button onclick="setStar(4)" class="star text-3xl transition-transform hover:scale-110" data-i="4">☆</button>
+              <button onclick="setStar(5)" class="star text-3xl transition-transform hover:scale-110" data-i="5">☆</button>
+            </div>
+            <textarea placeholder="Fikringizni yozing (ixtiyoriy)..." class="w-full text-sm border border-ink-200 rounded-lg px-3 py-2 resize-none outline-none focus:border-brand-400 bg-white" rows="2"></textarea>
+            <button class="mt-2 bg-brand-500 hover:bg-brand-600 text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors">Yuborish</button>
+          </div>
+        </div>
+
+        <div class="bg-green-50 border border-green-200 rounded-xl p-4 flex justify-between items-center">
+          <div>
+            <div class="text-sm text-ink-600">Jami to'lov summasi</div>
+            <div class="font-display font-800 text-2xl text-green-700 mt-0.5">320 000 so'm</div>
+          </div>
+          <div class="text-right">
+            <div class="text-xs text-ink-500">To'lov holati</div>
+            <div class="text-sm font-semibold text-green-700 mt-0.5">✅ To'langan</div>
+          </div>
+        </div>
+      </div>
+      <div class="px-6 py-4 border-t border-ink-100 bg-ink-50 flex-shrink-0">
+        <button class="w-full bg-brand-500 hover:bg-brand-600 text-white text-sm font-semibold py-2.5 rounded-xl transition-colors">
+          Yana xarid qilish →
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── MODAL: CANCELLED ── -->
+  <div id="modal-cancelled" class="hidden fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
+    <div class="bg-white w-full sm:max-w-xl sm:rounded-3xl rounded-t-3xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col">
+      <div class="flex items-center justify-between px-6 py-5 border-b border-ink-100 flex-shrink-0">
+        <div>
+          <div class="flex items-center gap-2 flex-wrap">
+            <h2 class="font-display font-700 text-xl text-ink-900">#ORD-00098</h2>
+            <span class="badge-cancelled text-xs font-semibold px-2.5 py-0.5 rounded-full">✗ Bekor qilingan</span>
+          </div>
+          <p class="text-xs text-ink-500 mt-0.5">2 aprel 2026, soat 11:00</p>
+        </div>
+        <button onclick="closeModal()" class="w-9 h-9 rounded-full bg-ink-100 hover:bg-ink-200 flex items-center justify-center transition-colors flex-shrink-0">
+          <svg class="w-4 h-4 text-ink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div class="overflow-y-auto flex-1 px-6 py-5 space-y-6">
+        <div class="bg-red-50 border border-red-200 rounded-2xl p-5 text-center">
+          <div class="text-3xl mb-2">❌</div>
+          <div class="font-display font-700 text-red-800 text-lg">Buyurtma bekor qilindi</div>
+          <p class="text-sm text-red-600 mt-1">Siz tomonidan 2 aprel 2026 kuni bekor qilingan</p>
+        </div>
+        <div>
+          <h3 class="font-display font-600 text-sm text-ink-700 mb-3 uppercase tracking-wide">Mahsulotlar (2 ta)</h3>
+          <div class="space-y-3">
+            <div class="flex items-center gap-3 bg-ink-50 rounded-xl p-3 opacity-60">
+              <img src="https://images.unsplash.com/photo-1560343090-f0409e92791a?w=60&h=60&fit=crop" class="w-12 h-12 rounded-lg object-cover flex-shrink-0 grayscale" alt="">
+              <div class="flex-1 min-w-0">
+                <div class="text-sm font-semibold text-ink-900 truncate line-through">Erkaklar poyabzali — Classic</div>
+                <div class="text-xs text-ink-500 mt-0.5">2 dona × 230 000 so'm</div>
+              </div>
+              <div class="text-sm font-700 text-ink-400 flex-shrink-0 line-through">460 000 so'm</div>
+            </div>
+            <div class="flex items-center gap-3 bg-ink-50 rounded-xl p-3 opacity-60">
+              <img src="https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=60&h=60&fit=crop" class="w-12 h-12 rounded-lg object-cover flex-shrink-0 grayscale" alt="">
+              <div class="flex-1 min-w-0">
+                <div class="text-sm font-semibold text-ink-900 truncate line-through">Noutbuk sumka</div>
+                <div class="text-xs text-ink-500 mt-0.5">1 dona × 180 000 so'm</div>
+              </div>
+              <div class="text-sm font-700 text-ink-400 flex-shrink-0 line-through">180 000 so'm</div>
+            </div>
+          </div>
+        </div>
+        <div class="bg-ink-100 rounded-xl p-4 flex justify-between items-center opacity-60">
+          <div>
+            <div class="text-sm text-ink-600">Jami (bekor qilingan)</div>
+            <div class="font-display font-800 text-2xl text-ink-400 line-through mt-0.5">640 000 so'm</div>
+          </div>
+        </div>
+      </div>
+      <div class="px-6 py-4 border-t border-ink-100 bg-ink-50 flex-shrink-0">
+        <button class="w-full bg-brand-500 hover:bg-brand-600 text-white text-sm font-semibold py-2.5 rounded-xl transition-colors">
+          Mahsulotlarni qayta xarid qilish →
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ════════════════════════════════ JS ════════════════════════════════ -->
+  <script>
+    // ── Tab filter ──
+    function filterOrders(status) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById('tab-' + status).classList.add('active');
+
+      const cards = document.querySelectorAll('#orders-list .order-card');
+      let visible = 0;
+      cards.forEach(card => {
+        if (status === 'all' || card.dataset.status === status) {
+          card.style.display = '';
+          visible++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+      document.getElementById('empty-state').classList.toggle('hidden', visible > 0);
+      document.getElementById('orders-list').classList.toggle('hidden', visible === 0);
+    }
+
+    // ── Modal ──
+    function openModal(id) {
+      document.getElementById(id).classList.remove('hidden');
+      document.getElementById('modal-overlay').classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeModal() {
+      document.querySelectorAll('[id^="modal-"]').forEach(m => {
+        if (m.id !== 'modal-overlay') m.classList.add('hidden');
+      });
+      document.getElementById('modal-overlay').classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+    // Close on ESC
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+    // ── Star rating ──
+    function setStar(n) {
+      document.querySelectorAll('.star').forEach(s => {
+        s.textContent = parseInt(s.dataset.i) <= n ? '★' : '☆';
+        s.style.color = parseInt(s.dataset.i) <= n ? '#f97316' : '#ccc';
+      });
+    }
+  </script>
+</body>
+</html>

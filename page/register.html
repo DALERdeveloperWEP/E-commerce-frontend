@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="uz">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ro'yxatdan o'tish - Severyanochka</title>
+    <script>
+      if (localStorage.getItem("access")) {
+        window.location.href = "/index.html";
+      }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/register.css" />
+    <script src="https://accounts.google.com/gsi/client?hl=uz" async defer></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="logo">
+        <span class="logo-text">🛒 Severyanochka</span>
+      </div>
+
+      <h1>Ro'yxatdan o'tish</h1>
+      <p class="subtitle">Yangi hisob yarating</p>
+
+      <form id="registerForm">
+        <div class="form-group">
+          <label for="name">Ism</label>
+          <div class="input-wrapper">
+            <input type="text" id="name" name="name" required />
+            <div class="error-message" id="nameError"></div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email</label>
+          <div class="input-wrapper">
+            <input type="email" id="email" name="email" required />
+            <div class="error-message" id="emailError"></div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="password">Parol</label>
+            <div class="input-wrapper">
+              <input type="password" id="password" name="password" required />
+              <div class="error-message" id="passwordError"></div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="confirmPassword">Parolni tasdiqlang</label>
+            <div class="input-wrapper">
+              <input
+                type="password"
+                id="confirmPassword"
+                name="confirmPassword"
+                required
+              />
+              <div class="error-message" id="confirmPasswordError"></div>
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-primary">Ro'yxatdan o'tish</button>
+      </form>
+
+      <div class="divider">
+        <span>yoki</span>
+      </div>
+
+      <div id="googleButtonContainer" style="display: flex; justify-content: center; width: 100%; border-radius: 12px; overflow: hidden; height: 44px; margin-bottom: 15px;"></div>
+
+      <div class="login-link">
+        Hisobingiz bormi? <a href="login.html">Kirish</a>
+      </div>
+    </div>
+
+    <script>
+      const form = document.getElementById("registerForm");
+      const nameInput = document.getElementById("name");
+      const emailInput = document.getElementById("email");
+      const passwordInput = document.getElementById("password");
+      const confirmPasswordInput = document.getElementById("confirmPassword");
+
+      // Clear errors on input for other fields
+      nameInput.addEventListener("input", () => {
+        nameInput.classList.remove("error");
+        document.getElementById("nameError").classList.remove("show");
+      });
+
+      // Clear errors on input for other fields
+      emailInput.addEventListener("input", () => {
+        emailInput.classList.remove("error");
+        document.getElementById("emailError").classList.remove("show");
+      });
+
+      passwordInput.addEventListener("input", () => {
+        passwordInput.classList.remove("error");
+        document.getElementById("passwordError").classList.remove("show");
+      });
+
+      confirmPasswordInput.addEventListener("input", () => {
+        confirmPasswordInput.classList.remove("error");
+        document
+          .getElementById("confirmPasswordError")
+          .classList.remove("show");
+      });
+
+      // Form submission
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        // Clear all errors
+        const inputs = [
+          nameInput,
+          emailInput,
+          passwordInput,
+          confirmPasswordInput,
+        ];
+        inputs.forEach((input) => {
+          input.classList.remove("error");
+        });
+        document
+          .querySelectorAll(".error-message")
+          .forEach((el) => el.classList.remove("show"));
+
+        const name = nameInput.value.trim();
+        const email = emailInput.value.trim();
+        const password = passwordInput.value;
+        const confirm = confirmPasswordInput.value;
+
+        let hasError = false;
+
+        // Validate name
+        if (!name) {
+          nameInput.classList.add("error");
+          document.getElementById("nameError").textContent =
+            "Ismni kiriting";
+          document.getElementById("nameError").classList.add("show");
+          hasError = true;
+        }
+
+        // Validate email
+        if (!email) {
+          emailInput.classList.add("error");
+          document.getElementById("emailError").textContent =
+            "Emailni kiriting";
+          document.getElementById("emailError").classList.add("show");
+          hasError = true;
+        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+          emailInput.classList.add("error");
+          document.getElementById("emailError").textContent =
+            "To'g'ri email manzilini kiriting";
+          document.getElementById("emailError").classList.add("show");
+          hasError = true;
+        }
+
+        // Validate password
+        if (!password) {
+          passwordInput.classList.add("error");
+          document.getElementById("passwordError").textContent =
+            "Parolni kiriting";
+          document.getElementById("passwordError").classList.add("show");
+          hasError = true;
+        } else if (password.length < 6) {
+          passwordInput.classList.add("error");
+          document.getElementById("passwordError").textContent =
+            "Parol kamida 6 ta belgidan iborat bo'lishi kerak";
+          document.getElementById("passwordError").classList.add("show");
+          hasError = true;
+        }
+
+        // Validate confirm password
+        if (!confirm) {
+          confirmPasswordInput.classList.add("error");
+          document.getElementById("confirmPasswordError").textContent =
+            "Parolni tasdiqlang";
+          document.getElementById("confirmPasswordError").classList.add("show");
+          hasError = true;
+        } else if (password !== confirm) {
+          confirmPasswordInput.classList.add("error");
+          document.getElementById("confirmPasswordError").textContent =
+            "Parollar mos kelmaydi";
+          document.getElementById("confirmPasswordError").classList.add("show");
+          hasError = true;
+        }
+
+        if (hasError) return;
+
+        try {
+          // Send request to backend
+          const response = await fetch("http://localhost:8000/api/auth/register/", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ name, email, password, confirm }),
+          });
+
+          const data = await response.json();
+
+          if (!response.ok) {
+            if (data.email) {
+              emailInput.classList.add("error");
+              document.getElementById("emailError").textContent = data.email[0];
+              document.getElementById("emailError").classList.add("show");
+            }
+            if (data.name) {
+              nameInput.classList.add("error");
+              document.getElementById("nameError").textContent = data.name[0];
+              document.getElementById("nameError").classList.add("show");
+            }
+            if (data.password) {
+              passwordInput.classList.add("error");
+              document.getElementById("passwordError").textContent = data.password[0];
+              document.getElementById("passwordError").classList.add("show");
+            }
+            if (data.confirm) {
+              confirmPasswordInput.classList.add("error");
+              document.getElementById("confirmPasswordError").textContent = data.confirm[0];
+              document.getElementById("confirmPasswordError").classList.add("show");
+            }
+            if (data.non_field_errors) {
+              passwordInput.classList.add("error");
+              confirmPasswordInput.classList.add("error");
+              let errLabel = document.getElementById("confirmPasswordError");
+              errLabel.textContent = data.non_field_errors[0];
+              errLabel.classList.add("show");
+            }
+          } else if (data.success) {
+            // Redirect to OTP verification page
+            localStorage.setItem("register_email", email);
+            window.location.href = "verify-otp.html";
+          }
+        } catch (error) {
+          console.error("Registration error:", error);
+          emailInput.classList.add("error");
+          document.getElementById("emailError").textContent =
+            "Xatolik yuz berdi. Qaytadan urinib ko'ring.";
+          document.getElementById("emailError").classList.add("show");
+        }
+      });
+
+      // Google Sign-In SDK configuration for standard renderButton flow
+      window.onload = function () {
+        if (window.google) {
+          google.accounts.id.initialize({
+            client_id: "2358723045-7eaqviti9gdji864u11dlvmcotcp1mvm.apps.googleusercontent.com",
+            callback: handleGoogleCredential
+          });
+
+          const googleBtnContainer = document.getElementById("googleButtonContainer");
+          const primaryBtnWidth = document.querySelector('.btn-primary').offsetWidth || 370;
+
+          google.accounts.id.renderButton(
+            googleBtnContainer,
+            {
+              theme: "outline",
+              size: "large",
+              type: "standard",
+              shape: "rectangular",
+              text: "signup_with",
+              logo_alignment: "center",
+              width: primaryBtnWidth.toString()
+            }
+          );
+        }
+      };
+
+      async function handleGoogleCredential(response) {
+        if (!response.credential) {
+          console.error("Google auth prompt xatosi yoki block");
+          return;
+        }
+
+        try {
+          const authResponse = await fetch(
+            "http://localhost:8000/api/auth/google/",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              // Backend uniquely verifies JSON web token ID Tokens
+              body: JSON.stringify({ token: response.credential }),
+            },
+          );
+
+          const data = await authResponse.json();
+          
+          if (!authResponse.ok) {
+             console.error("Google register token xato:", data);
+             alert("Google orqali kiritishda serverda xatolik yuz berdi");
+             return;
+          }
+
+          if (data.access) {
+            localStorage.setItem("access", data.access);
+            localStorage.setItem("refresh", data.refresh);
+            window.location.href = "/index.html";
+          }
+        } catch (error) {
+          console.error("Google authentication request error:", error);
+        }
+      }
+    </script>
+  </body>
+</html>
