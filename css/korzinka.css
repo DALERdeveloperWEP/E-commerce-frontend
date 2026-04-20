@@ -65,6 +65,24 @@ svg {
 .product {
   width: 100%;
   height: 500px;
+  transition: height 0.3s ease;
+}
+
+.product.checkout-active {
+  height: auto;
+  min-height: 500px;
+}
+
+.order-log {
+  background: #f3f2f1;
+  color: #414141;
+  border-radius: 4px;
+  padding: 15px;
+  margin-top: 12px;
+  font-size: 14px;
+  line-height: 1.4;
+  display: none;
+  border: 1px solid #d9d9d9;
 }
 .head-product {
   width: 100%;
@@ -169,6 +187,11 @@ main i {
 .child-product {
   flex: 2.8;
   overflow: auto;
+}
+.wrapper-product.no-scroll,
+.child-product.no-scroll {
+  height: auto !important;
+  overflow: visible !important;
 }
 
 .info-product {
@@ -612,4 +635,163 @@ main i {
     height: 30px;
     font-size: 16px;
   }
+}
+
+/* Checkout Form Styles */
+.checkout-form {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  background: #fff;
+  padding: 20px 0;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.checkout-section h2 {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: #414141;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  font-size: 14px;
+  color: #7d7d7d;
+}
+
+.form-group input, .form-group select {
+  height: 45px;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  padding: 0 15px;
+  font-size: 16px;
+  color: #414141;
+  outline: none;
+}
+
+.form-group input:focus {
+  border-color: #ff6633;
+}
+
+.time-slots {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.time-slot {
+  height: 45px;
+  background: #f3f2f1;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.time-slot.active {
+  background: #70c05b;
+  color: #fff;
+}
+
+.auth-row {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.btn-get-code {
+  background: #ff6633;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 0 25px;
+  height: 45px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.link-email {
+  color: #70c05b;
+  text-decoration: none;
+  font-size: 16px;
+  margin-left: auto;
+}
+
+.btn-pay-delivery {
+  background: #70c05b;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  height: 50px;
+  width: 100%;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 12px;
+}
+
+/* Figma Pricing Styles */
+.price-container {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+}
+
+.price-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.main-price-text {
+  font-size: 18px;
+  font-weight: 700;
+  color: #414141;
+}
+
+.old-price-text {
+  font-size: 16px;
+  color: #BFBFBF;
+}
+
+.unit-text {
+  font-size: 14px;
+  color: #414141;
+  font-weight: 400;
+  margin-left: 4px;
+}
+
+.price-subtext {
+  font-size: 12px;
+  color: #BFBFBF;
+  margin-top: 2px;
+}
+
+.discount-badge {
+  background: #FF6633;
+  color: #fff;
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 16px;
+  font-weight: 700;
+  margin-top: 4px;
 }
