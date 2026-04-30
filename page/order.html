@@ -14,6 +14,8 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=package_2"/>
   <script src="https://kit.fontawesome.com/dfead5f7ee.js" crossorigin="anonymous"></script>
   <script src="../js/header.js"></script>
+  <script src="../js/api.js"></script>
+  <script src="../js/order.js"></script>
   
   <script>
     tailwind.config = {
@@ -410,7 +412,7 @@
       </div>
       <h3 class="font-display font-700 text-lg text-ink-900 mb-2">Bu toifada buyurtma yo'q</h3>
       <p class="text-sm text-ink-500">Boshqa toifalarni ko'rib chiqing yoki yangi xarid qiling.</p>
-      <a href="#" class="mt-5 bg-brand-500 hover:bg-brand-600 text-white text-sm font-semibold px-6 py-2.5 rounded-xl transition-colors">Xarid qilish →</a>
+      <a href="./korzinka.html" class="mt-5 bg-brand-500 hover:bg-brand-600 text-white text-sm font-semibold px-6 py-2.5 rounded-xl transition-colors">Xarid qilish →</a>
     </div>
 
   </main>
@@ -421,11 +423,11 @@
   ════════════════════════════════════════════════════════════════ -->
 
   <!-- Overlay -->
-  <div id="modal-overlay" onclick="closeModal()" class="hidden fixed inset-0 bg-ink-900/40 backdrop-blur-sm z-40"></div>
+  <div id="modal-overlay" onclick="closeModal()" class="hidden fixed inset-0 bg-ink-900/40 backdrop-blur-sm z-[9998]"></div>
 
   <!-- ── MODAL: PENDING ── -->
-  <div id="modal-pending" class="hidden fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
-    <div class="bg-white w-full sm:max-w-xl sm:rounded-3xl rounded-t-3xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col">
+  <div id="modal-pending" class="hidden fixed inset-0 z-[10000] flex items-end sm:items-center justify-center p-0 sm:p-4">
+    <div class="bg-white w-full sm:max-w-xl sm:rounded-3xl rounded-t-3xl shadow-2xl overflow-hidden max-h-[80vh] flex flex-col">
       <!-- Header -->
       <div class="flex items-center justify-between px-6 py-5 border-b border-ink-100 flex-shrink-0">
         <div>
@@ -571,7 +573,7 @@
   </div>
 
   <!-- ── MODAL: CONFIRMED ── -->
-  <div id="modal-confirmed" class="hidden fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
+  <div id="modal-confirmed" class="hidden fixed inset-0 z-[10000] flex items-end sm:items-center justify-center p-0 sm:p-4">
     <div class="bg-white w-full sm:max-w-xl sm:rounded-3xl rounded-t-3xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col">
       <div class="flex items-center justify-between px-6 py-5 border-b border-ink-100 flex-shrink-0">
         <div>
@@ -664,7 +666,7 @@
   </div>
 
   <!-- ── MODAL: DELIVERED ── -->
-  <div id="modal-delivered" class="hidden fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
+  <div id="modal-delivered" class="hidden fixed inset-0 z-[10000] flex items-end sm:items-center justify-center p-0 sm:p-4">
     <div class="bg-white w-full sm:max-w-xl sm:rounded-3xl rounded-t-3xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col">
       <div class="flex items-center justify-between px-6 py-5 border-b border-ink-100 flex-shrink-0">
         <div>
@@ -736,7 +738,7 @@
   </div>
 
   <!-- ── MODAL: CANCELLED ── -->
-  <div id="modal-cancelled" class="hidden fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
+  <div id="modal-cancelled" class="hidden fixed inset-0 z-[10000] flex items-end sm:items-center justify-center p-0 sm:p-4">
     <div class="bg-white w-full sm:max-w-xl sm:rounded-3xl rounded-t-3xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col">
       <div class="flex items-center justify-between px-6 py-5 border-b border-ink-100 flex-shrink-0">
         <div>
@@ -793,50 +795,42 @@
   </div>
 
 
+  <!-- ── MODAL: CUSTOM CONFIRM ── -->
+  <div id="modal-confirm" class="hidden fixed inset-0 z-[10001] flex items-center justify-center p-4">
+    <div class="bg-white w-full max-w-sm rounded-2xl shadow-2xl overflow-hidden fade-up">
+      <div class="p-6 text-center">
+        <div class="w-16 h-16 bg-red-50 text-red-500 rounded-full flex items-center justify-center mx-auto mb-4">
+          <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+        </div>
+        <h3 id="confirm-title" class="font-display font-700 text-lg text-ink-900 mb-2">Ishonchingiz komilmi?</h3>
+        <p id="confirm-desc" class="text-sm text-ink-500 mb-6">Ushbu amalni ortga qaytarib bo'lmaydi.</p>
+        <div class="flex gap-3">
+          <button onclick="closeConfirm()" class="flex-1 px-4 py-2.5 bg-ink-100 hover:bg-ink-200 text-ink-700 text-sm font-semibold rounded-xl transition-colors">Bekor qilish</button>
+          <button id="confirm-btn" class="flex-1 px-4 py-2.5 bg-red-500 hover:bg-red-600 text-white text-sm font-semibold rounded-xl transition-colors shadow-sm shadow-red-200">Tasdiqlash</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── MODAL: CUSTOM PROMPT (EDIT) ── -->
+  <div id="modal-edit" class="hidden fixed inset-0 z-[10001] flex items-center justify-center p-4">
+    <div class="bg-white w-full max-w-md rounded-2xl shadow-2xl overflow-hidden fade-up">
+      <div class="px-6 py-5 border-b border-ink-100 flex items-center justify-between">
+        <h3 id="edit-modal-title" class="font-display font-700 text-lg text-ink-900">Ma'lumotni yangilash</h3>
+        <button onclick="closeEditModal()" class="text-ink-400 hover:text-ink-600"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button>
+      </div>
+      <div class="p-6">
+        <div id="edit-form-container" class="space-y-4">
+          <!-- Inputs will be injected here -->
+        </div>
+        <div class="flex gap-3 mt-8">
+          <button onclick="closeEditModal()" class="flex-1 px-4 py-2.5 bg-ink-100 hover:bg-ink-200 text-ink-700 text-sm font-semibold rounded-xl transition-colors">Yopish</button>
+          <button id="save-edit-btn" class="flex-1 px-4 py-2.5 bg-brand-500 hover:bg-brand-600 text-white text-sm font-semibold rounded-xl transition-colors shadow-sm shadow-brand-200">Saqlash</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- ════════════════════════════════ JS ════════════════════════════════ -->
-  <script>
-    // ── Tab filter ──
-    function filterOrders(status) {
-      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-      document.getElementById('tab-' + status).classList.add('active');
-
-      const cards = document.querySelectorAll('#orders-list .order-card');
-      let visible = 0;
-      cards.forEach(card => {
-        if (status === 'all' || card.dataset.status === status) {
-          card.style.display = '';
-          visible++;
-        } else {
-          card.style.display = 'none';
-        }
-      });
-      document.getElementById('empty-state').classList.toggle('hidden', visible > 0);
-      document.getElementById('orders-list').classList.toggle('hidden', visible === 0);
-    }
-
-    // ── Modal ──
-    function openModal(id) {
-      document.getElementById(id).classList.remove('hidden');
-      document.getElementById('modal-overlay').classList.remove('hidden');
-      document.body.style.overflow = 'hidden';
-    }
-    function closeModal() {
-      document.querySelectorAll('[id^="modal-"]').forEach(m => {
-        if (m.id !== 'modal-overlay') m.classList.add('hidden');
-      });
-      document.getElementById('modal-overlay').classList.add('hidden');
-      document.body.style.overflow = '';
-    }
-    // Close on ESC
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
-
-    // ── Star rating ──
-    function setStar(n) {
-      document.querySelectorAll('.star').forEach(s => {
-        s.textContent = parseInt(s.dataset.i) <= n ? '★' : '☆';
-        s.style.color = parseInt(s.dataset.i) <= n ? '#f97316' : '#ccc';
-      });
-    }
-  </script>
 </body>
 </html>
