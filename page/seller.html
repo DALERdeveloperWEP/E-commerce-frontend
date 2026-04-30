@@ -914,31 +914,31 @@ body {
           </div>
           <div class="stat-label">Bugungi savdo</div>
           <div class="stat-value" id="stat-revenue">4,280</div>
-          <div class="stat-change up">↑ 12% kechagiga nisbatan</div>
+          <div class="stat-change up" id="stat-revenue-change">↑ 12% kechagiga nisbatan</div>
         </div>
         <div class="stat-card green">
           <div class="stat-icon">
             <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/><path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z"/></svg>
           </div>
           <div class="stat-label">Yangi buyurtmalar</div>
-          <div class="stat-value">12</div>
-          <div class="stat-change up">↑ 3 ta yangi (bugun)</div>
+          <div class="stat-value" id="stat-new-orders">12</div>
+          <div class="stat-change up" id="stat-new-orders-change">↑ 3 ta yangi (bugun)</div>
         </div>
         <div class="stat-card blue">
           <div class="stat-icon">
             <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M10 2a4 4 0 00-4 4v1H5a1 1 0 00-.994.89l-1 9A1 1 0 004 18h12a1 1 0 00.994-1.11l-1-9A1 1 0 0015 7h-1V6a4 4 0 00-4-4zm2 5V6a2 2 0 10-4 0v1h4zm-6 3a1 1 0 112 0 1 1 0 01-2 0zm7-1a1 1 0 100 2 1 1 0 000-2z"/></svg>
           </div>
           <div class="stat-label">Jami mahsulotlar</div>
-          <div class="stat-value">48</div>
-          <div class="stat-change down">↓ 2 ta kam stok</div>
+          <div class="stat-value" id="stat-total-products">48</div>
+          <div class="stat-change down" id="stat-low-stock">↓ 2 ta kam stok</div>
         </div>
         <div class="stat-card yellow">
           <div class="stat-icon">
             <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z"/></svg>
           </div>
           <div class="stat-label">O'rtacha reyting</div>
-          <div class="stat-value">4.8</div>
-          <div class="stat-change up">↑ +0.2 so'nggi oyda</div>
+          <div class="stat-value" id="stat-avg-rating">4.8</div>
+          <div class="stat-change up" id="stat-rating-change">↑ +0.2 so'nggi oyda</div>
         </div>
       </div>
 
@@ -958,7 +958,7 @@ body {
                 <th>Holat</th>
                 <th></th>
               </tr></thead>
-              <tbody>
+              <tbody id="dashboard-recent-orders">
                 <tr>
                   <td><div class="order-id">#ORD-2482</div><div class="order-meta">5 daq oldin</div></td>
                   <td><div class="order-product-name">Qora futbolka XL</div><div class="order-meta">x2 dona</div></td>
@@ -1011,7 +1011,7 @@ body {
               <div style="font-size:22px;font-weight:800;color:var(--dark);">₹1,840,000</div>
               <div style="font-size:12px;color:var(--green);font-weight:600;margin-bottom:4px;">↑ 18% o'tgan haftadan</div>
               <div class="chart-wrap">
-                <div class="chart-bars">
+                <div class="chart-bars" id="dashboard-chart-bars">
                   <div class="chart-day"><div class="chart-bar" style="height:45px;"></div><div class="chart-day-lbl">Du</div></div>
                   <div class="chart-day"><div class="chart-bar" style="height:65px;"></div><div class="chart-day-lbl">Se</div></div>
                   <div class="chart-day"><div class="chart-bar" style="height:40px;"></div><div class="chart-day-lbl">Ch</div></div>
@@ -1233,7 +1233,7 @@ body {
           </div>
         </div>
       </div>
-
+      
       <!-- Suggest form -->
       <div id="cat-view-suggest" style="display:none;">
         <div style="max-width:560px;">
@@ -1244,30 +1244,46 @@ body {
                 <div class="alert-icon"><svg viewBox="0 0 20 20" fill="white" width="14" height="14"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"/></svg></div>
                 <div class="alert-content"><div class="alert-title">Qanday ishlaydi?</div><div class="alert-desc">Taklif yuborasiz → Admin ko'rib chiqadi (1-3 ish kuni) → Tasdiqlansa yangi kategoriya paydo bo'ladi</div></div>
               </div>
+              <!-- name -->
               <div class="form-group">
                 <label class="form-label">Kategoriya nomi <span class="required">*</span></label>
                 <input type="text" class="form-input" placeholder="Masalan: Sport kostyumlar" id="cat-name-input">
               </div>
+              <!-- image upload -->
               <div class="form-group">
-                <label class="form-label">Ota-kategoriya</label>
-                <select class="form-input">
-                  <option value="">Tanlang (ixtiyoriy)</option>
-                  <option>Kiyim-kechak</option>
-                  <option>Poyabzal</option>
-                  <option>Aksessuarlar</option>
-                  <option>Sport</option>
-                </select>
+                <label class="form-label">Rasm <span class="required">*</span></label>
+                <label for="cat-image-input" id="cat-image-label" style="
+                  display:flex;align-items:center;gap:10px;
+                  padding:10px 14px;
+                  border:2px dashed var(--border-light);
+                  border-radius:var(--radius-md);
+                  cursor:pointer;
+                  color:var(--muted);
+                  font-size:13px;
+                  background:var(--subtle);
+                  transition:border 0.2s,background 0.2s;
+                ">
+                  <svg viewBox="0 0 20 20" fill="currentColor" width="18" height="18"><path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"/></svg>
+                  <span id="cat-image-filename">Rasm faylini tanlang...</span>
+                </label>
+                <input type="file" id="cat-image-input" accept="image/*" style="display:none;"
+                  onchange="previewSuggestImage(this)">
+                <div id="cat-image-preview-wrap" style="display:none;margin-top:10px;border-radius:8px;overflow:hidden;border:1px solid var(--border-light);max-height:160px;">
+                  <img id="cat-image-preview" src="" alt="" style="width:100%;height:160px;object-fit:cover;display:block;">
+                </div>
               </div>
+              <!-- comment -->
               <div class="form-group">
-                <label class="form-label">Tavsif</label>
-                <textarea class="form-input form-textarea" placeholder="Bu kategoriya haqida qisqacha..."></textarea>
+                <label class="form-label">Izoh — nima uchun kerak? <span class="required">*</span></label>
+                <textarea class="form-input form-textarea" id="cat-comment-input" placeholder="Bu kategoriya qo'shilsa qanday mahsulotlar joylanadi..."></textarea>
               </div>
-              <div class="form-group">
-                <label class="form-label">Nima uchun kerak? <span class="required">*</span></label>
-                <textarea class="form-input form-textarea" placeholder="Bu kategoriya qo'shilsa qanday mahsulotlar joylanadi..."></textarea>
-              </div>
+              <!-- result banner -->
+              <div id="cat-suggest-result" style="display:none;margin-bottom:12px;padding:12px 14px;border-radius:8px;font-size:13px;font-weight:600;"></div>
               <div style="display:flex;gap:10px;margin-top:8px;">
-                <button class="btn btn-primary" onclick="submitCatSuggestion()">Taklif yuborish</button>
+                <button class="btn btn-primary" id="cat-suggest-btn" onclick="submitCatSuggestion()">
+                  <svg viewBox="0 0 20 20" fill="currentColor" width="14" height="14" style="margin-right:2px;"><path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"/></svg>
+                  Taklif yuborish
+                </button>
                 <button class="btn btn-neutral" onclick="switchCatTab('all', document.querySelector('#cat-tabs .tab'))">Bekor qilish</button>
               </div>
             </div>
@@ -2224,14 +2240,175 @@ function switchCatTab(tab, el) {
     const e = document.getElementById('cat-view-'+v);
     if(e) e.style.display = v===tab ? '' : 'none';
   });
+  if(tab === 'mine') loadMySuggests();
 }
 
-function submitCatSuggestion() {
-  const name = document.getElementById('cat-name-input').value;
-  if(!name) { showToast('Kategoriya nomini kiriting','warning'); return; }
-  // TODO: POST /api/seller/category/requests/ { name, image, ... }
-  showToast('Taklif yuborildi! Admin ko\'rib chiqadi');
-  switchCatTab('mine', document.querySelectorAll('#cat-tabs .tab')[1]);
+// ── Image preview helper for suggest form ─────────────────────────
+function previewSuggestImage(input) {
+  const file = input.files[0];
+  const preview = document.getElementById('cat-image-preview');
+  const wrap = document.getElementById('cat-image-preview-wrap');
+  const label = document.getElementById('cat-image-filename');
+  if(file) {
+    const reader = new FileReader();
+    reader.onload = e => { preview.src = e.target.result; wrap.style.display = 'block'; };
+    reader.readAsDataURL(file);
+    label.textContent = file.name;
+  } else {
+    wrap.style.display = 'none';
+    label.textContent = 'Rasm faylini tanlang...';
+  }
+}
+
+// ── Submit suggest → POST /api/seller/category/requests/ ──────────
+async function submitCatSuggestion() {
+  const name    = document.getElementById('cat-name-input').value.trim();
+  const comment = document.getElementById('cat-comment-input').value.trim();
+  const imgFile = document.getElementById('cat-image-input').files[0];
+
+  const resultEl = document.getElementById('cat-suggest-result');
+  const btn      = document.getElementById('cat-suggest-btn');
+
+  if(!name)    { showToast('Kategoriya nomini kiriting', 'warning'); return; }
+  if(!imgFile) { showToast('Rasm faylini tanlang', 'warning'); return; }
+  if(!comment) { showToast('Izoh matnini kiriting', 'warning'); return; }
+
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner spinner-white-sm" style="display:inline-block;"></span> Yuborilmoqda...';
+  resultEl.style.display = 'none';
+
+  const fd = new FormData();
+  fd.append('name',    name);
+  fd.append('image',   imgFile);
+  fd.append('comment', comment);
+
+  try {
+    const BASE = typeof BASE_URL !== 'undefined' ? BASE_URL : 'http://localhost:8000';
+    const token = localStorage.getItem('access') || '';
+    const res = await fetch(BASE + '/api/seller/category/requests/', {
+      method: 'POST',
+      headers: token ? { 'Authorization': 'Bearer ' + token } : {},
+      body: fd
+    });
+
+    if(res.status === 401) {
+      // try token refresh
+      const refreshRes = await fetch(BASE + '/api/token/refresh/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ refresh: localStorage.getItem('refresh') || '' })
+      });
+      if(refreshRes.ok) {
+        const tok = await refreshRes.json();
+        localStorage.setItem('access', tok.access);
+        // retry
+        const retry = await fetch(BASE + '/api/seller/category/requests/', {
+          method: 'POST',
+          headers: { 'Authorization': 'Bearer ' + tok.access },
+          body: fd
+        });
+        if(!retry.ok) throw new Error('HTTP ' + retry.status);
+        return handleSuggestSuccess(await retry.json());
+      } else {
+        window.location.href = './login.html';
+        return;
+      }
+    }
+
+    if(!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(JSON.stringify(err));
+    }
+
+    handleSuggestSuccess(await res.json());
+
+  } catch(e) {
+    showToast('Xatolik: ' + e.message, 'error');
+    btn.disabled = false;
+    btn.innerHTML = '<svg viewBox="0 0 20 20" fill="currentColor" width="14" height="14" style="margin-right:2px;"><path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"/></svg> Taklif yuborish';
+  }
+}
+
+function handleSuggestSuccess(data) {
+  const resultEl = document.getElementById('cat-suggest-result');
+  resultEl.style.display = 'block';
+  resultEl.style.background = 'var(--green-light)';
+  resultEl.style.color = 'var(--green)';
+  resultEl.innerHTML = `✅ Taklif muvaffaqiyatli yuborildi!<br><span style="font-weight:400;font-size:12px;">ID: ${data.id} &nbsp;|&nbsp; Slug: ${data.slug || '—'} &nbsp;|&nbsp; Status: ${suggestStatusLabel(data.status)}</span>`;
+
+  const btn = document.getElementById('cat-suggest-btn');
+  btn.innerHTML = '✓ Yuborildi';
+
+  showToast('Kategoriya taklifi yuborildi! ✅');
+
+  // reset form after 2s, then go to mine tab
+  setTimeout(() => {
+    document.getElementById('cat-name-input').value = '';
+    document.getElementById('cat-comment-input').value = '';
+    document.getElementById('cat-image-input').value = '';
+    document.getElementById('cat-image-filename').textContent = 'Rasm faylini tanlang...';
+    document.getElementById('cat-image-preview-wrap').style.display = 'none';
+    resultEl.style.display = 'none';
+    btn.disabled = false;
+    btn.innerHTML = '<svg viewBox="0 0 20 20" fill="currentColor" width="14" height="14" style="margin-right:2px;"><path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"/></svg> Taklif yuborish';
+    switchCatTab('mine', document.querySelectorAll('#cat-tabs .tab')[1]);
+  }, 2000);
+}
+
+// ── Load my suggests → GET /api/seller/category/requests/ ──────────
+async function loadMySuggests() {
+  const container = document.getElementById('cat-view-mine');
+  container.innerHTML = `<div style="padding:24px;text-align:center;"><div class="spinner spinner-md" style="margin:0 auto;"></div></div>`;
+
+  try {
+    const BASE = typeof BASE_URL !== 'undefined' ? BASE_URL : 'http://localhost:8000';
+    const token = localStorage.getItem('access') || '';
+    const res = await fetch(BASE + '/api/seller/category/requests/', {
+      headers: token ? { 'Authorization': 'Bearer ' + token } : {}
+    });
+    if(!res.ok) throw new Error('HTTP ' + res.status);
+    const list = await res.json();
+
+    // update stats
+    document.getElementById('cat-suggests-count') && (document.getElementById('cat-suggests-count').textContent = list.length);
+    document.getElementById('cat-pending-count') && (document.getElementById('cat-pending-count').textContent = list.filter(s => !s.status || s.status === 'pending').length);
+    document.getElementById('cat-approved-count') && (document.getElementById('cat-approved-count').textContent = list.filter(s => s.status === 'approved' || s.status === 'confirmed').length);
+
+    if(!list.length) {
+      container.innerHTML = `<div class="empty-state"><div class="empty-icon">💡</div><div class="empty-title">Hali taklif yo'q</div><div class="empty-desc">Yangi kategoriya taklif qiling</div><button class="btn btn-primary" onclick="switchCatTab('suggest', document.querySelectorAll('#cat-tabs .tab')[3])">+ Taklif qilish</button></div>`;
+      return;
+    }
+
+    container.innerHTML = `<div class="cat-grid">${list.map(s => `
+      <div class="cat-card">
+        <div class="cat-icon" style="background:var(--subtle);overflow:hidden;padding:0;">
+          ${s.image ? `<img src="${s.image}" alt="${s.name}" style="width:100%;height:100%;object-fit:cover;">` : '🗂️'}
+        </div>
+        <div class="cat-info">
+          <div class="cat-name">${s.name}</div>
+          <div class="cat-count" style="word-break:break-word;white-space:normal;">${s.comment ? s.comment.slice(0,60) + (s.comment.length > 60 ? '...' : '') : ''}</div>
+          ${s.slug ? `<div style="font-size:10px;color:var(--muted);margin-top:3px;">slug: ${s.slug}</div>` : ''}
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px;align-items:flex-end;flex-shrink:0;">
+          <span class="badge ${suggestBadgeClass(s.status)}">${suggestStatusLabel(s.status)}</span>
+        </div>
+      </div>`).join('')}</div>`;
+
+  } catch(e) {
+    container.innerHTML = `<div class="empty-state"><div class="empty-icon" style="font-size:32px;">⚠️</div><div class="empty-title">Yuklab bo'lmadi</div><div class="empty-desc">${e.message}</div></div>`;
+  }
+}
+
+function suggestStatusLabel(status) {
+  const map = { pending:'Kutilmoqda', approved:'Tasdiqlandi', confirmed:'Tasdiqlandi', rejected:'Rad etildi', cancelled:'Bekor qilindi' };
+  return (status && map[status.toLowerCase()]) || 'Kutilmoqda';
+}
+function suggestBadgeClass(status) {
+  if(!status) return 'badge-pending';
+  const s = status.toLowerCase();
+  if(s === 'approved' || s === 'confirmed') return 'badge-approved';
+  if(s === 'rejected' || s === 'cancelled') return 'badge-rejected';
+  return 'badge-pending';
 }
 
 // ===== TASKS =====
@@ -2318,5 +2495,7 @@ document.querySelectorAll('.modal-overlay').forEach(overlay => {
 });
 
 </script>
+<script src="../js/api.js"></script>
+<script src="../js/seller.js"></script>
 </body>
 </html>

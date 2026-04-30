@@ -22,11 +22,12 @@ function showPage(page) {
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
   document.getElementById('page-' + page).classList.add('active');
   document.getElementById('nav-' + page).classList.add('active');
-  document.getElementById('topbarTitle').textContent =
-    page === 'products' ? 'Mahsulotlar' : 'Kategoriyalar';
+  const titles = { products: 'Mahsulotlar', categories: 'Kategoriyalar', suggest: 'Kategoriya Takliflari' };
+  document.getElementById('topbarTitle').textContent = titles[page] || page;
   document.getElementById('searchBar').value = '';
-  document.getElementById('searchBar').placeholder =
-    page === 'products' ? 'Mahsulot qidirish...' : 'Kategoriya qidirish...';
+  const placeholders = { products: 'Mahsulot qidirish...', categories: 'Kategoriya qidirish...', suggest: '' };
+  document.getElementById('searchBar').placeholder = placeholders[page] || 'Qidirish...';
+  document.getElementById('searchBar').style.display = page === 'suggest' ? 'none' : '';
 }
 
 // ─── SEARCH ──────────────────────────────────────────────────────────────────
@@ -66,6 +67,8 @@ document.addEventListener('DOMContentLoaded', () => {
 function openAddModal() {
   if (currentPage === 'products') {
     openProductModal(null);
+  } else if (currentPage === 'suggest') {
+    if (typeof openSuggestModal === 'function') openSuggestModal();
   } else {
     openCategoryModal(null);
   }

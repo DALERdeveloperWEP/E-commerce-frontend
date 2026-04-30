@@ -428,7 +428,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
 
                 try {
-                    const res = await apiFetch('/api/orders/orders/', { 
+                    const res = await apiFetch('/api/orders/', { 
                         method: 'POST', 
                         headers: { 'Content-Type': 'application/json' }, 
                         body: JSON.stringify(payload) 
@@ -451,6 +451,53 @@ document.addEventListener('DOMContentLoaded', () => {
                     logEl.style.backgroundColor = '#ffebee'; logEl.style.color = '#c62828';
                 }
             };
+        });
+    }
+
+    if (vdeliBtn) {
+        vdeliBtn.addEventListener('click', () => {
+            const checkboxes = document.querySelectorAll('.child .ui-checkbox');
+            const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+            const newState = !allChecked;
+            
+            checkboxes.forEach(cb => {
+                cb.checked = newState;
+                setCheckedItem(parseInt(cb.dataset.id), newState);
+            });
+            updateSummary();
+            updateVdeliState();
+        });
+    }
+
+    if (deleteBtn) {
+        deleteBtn.addEventListener('click', async () => {
+            const checkboxes = document.querySelectorAll('.child .ui-checkbox:checked');
+            const idsToDelete = Array.from(checkboxes).map(cb => parseInt(cb.dataset.id));
+            
+            if (idsToDelete.length === 0) {
+                alert('Выберите товары для удаления');
+                return;
+            }
+
+            if (!confirm(`Удалить выбранные товары (${idsToDelete.length})?`)) return;
+
+            try {
+                // Delete one by one or via bulk if API supports it (here one by one)
+                for (const id of idsToDelete) {
+                    await fetch(`${BASE_URL}/api/cart/${id}/`, { method: 'DELETE', headers });
+                }
+                // Update local state
+                currentCartItems = currentCartItems.filter(item => !idsToDelete.includes(item.id));
+                // Remove from local storage checked list
+                const checkedItems = getCheckedItems();
+                idsToDelete.forEach(id => delete checkedItems[id]);
+                localStorage.setItem('cart_checked_items', JSON.stringify(checkedItems));
+                
+                renderCart();
+            } catch (e) {
+                console.error('Error deleting items:', e);
+                alert('Произошла ошибка при удалении');
+            }
         });
     }
 
